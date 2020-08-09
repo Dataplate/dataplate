@@ -1,0 +1,36 @@
+{% extends 'index.html' %}
+{% block subtitle %}{% if filters.name %}{{ filters.name }}{% else %}View Report{% endif %}{% endblock %}
+
+{% block content %}
+  <div class="row mb-3">
+    <p class="mark text-muted">{% if filters.name %}{{ filters.name }}{% else %}View Report{% endif %}</p>
+  </div>
+  <div class="row mb-3">
+    <div class="card border-light col-md-6">
+      <div class="card-body">
+        <form method="GET" action="{{ url_for('home.report') }}" role="form">
+        {% for name, value in filters.items() %}
+        <div class="form-group">
+          <label for="{{ name }}">{{ name|capitalize }}:</label>
+          <select class="form-control form-control-sm" id="{{ name }}" name="{{ name }}" required="" value="{{ value }}"
+            onchange="this.form.submit()">
+            <option value=""></option>
+            {% for v in values[name] %}
+            <option value="{{ v }}" {% if v == value %}selected{% endif %}>{{ v }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        {% endfor %}
+        </form>
+      </div>
+    </div>
+  </div>
+  {% for file in files %}
+  <div class="row mb-3 mt-5">
+    <iframe src="{{ url_for('home.report_file', file=file) }}"
+            style="width:100%;min-height:1500px;"
+            class="card border-light"
+            allowfullscreen></iframe>
+  </div>
+  {% endfor %}
+{% endblock %}

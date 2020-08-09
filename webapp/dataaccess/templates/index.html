@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+ 
+{% block container %}
+  <div class="row mt-2 mb-2">
+    <div class="card col-md-4 col-sm-12">
+      <div class="card-body">
+        <a href="{{ url_for('home.access_key') }}">Private access key</a><br/>
+        <a href="{{ url_for('home.api_doc') }}">API documentation</a><br/>
+
+        {% if current_user.has_roles('admin', 'harvester') %}
+        <a href="{{ url_for('admin.datasets') }}">Manage datasets</a><br/>
+        {% else %}
+        <a href="{{ url_for('home.datasets') }}">View datasets</a><br/>
+        {% endif %}
+        <a href="{{ url_for('admin.queries') }}">Run a query</a><br/>
+
+        {% if current_user.has_roles('admin', 'report-viewer') %}
+        <a href="{{ url_for('home.report') }}">Browse static reports</a><br/>
+        {% endif %}
+
+        <a href="{{ url_for('home.current_session') }}">Current session</a><br/>
+
+        {% if current_user.has_roles('admin') %}
+        <a href="{{ url_for('admin.roles') }}">Roles and permissions</a><br/>
+        <a href="{{ url_for('admin.services') }}">Manage service accounts</a><br/>
+        {% endif %}
+
+        {% if current_user.has_roles('admin') %}
+        <a href="{{ url_for('admin.edit_config') }}">System configuration</a><br/>
+        {% endif %}
+
+        {% if current_user.has_roles('admin', 'auditor') %}
+        <a href="{{ url_for('admin.audit_log') }}">Audit log</a><br/>
+        {% endif %}
+
+        <a href="{{ url_for('home.logout') }}">Logout</a><br/>
+      </div>
+    </div>
+  </div>
+  <br/>
+  {% block content %}{% endblock %}
+{% endblock %}

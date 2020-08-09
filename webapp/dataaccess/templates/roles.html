@@ -1,0 +1,35 @@
+{% extends 'index.html' %}
+{% block subtitle %}Roles{% endblock %}
+
+{% block content %}
+  <div class="row mb-3">
+    <p class="mark text-muted">Manage roles and permissions</p>
+  </div>
+
+  {% for role in roles %}
+  <div class="row mb-3" data-id="{{ role.id }}">
+    <div class="card border-light col-md-8">
+      <div class="card-body">
+        <div class="card-title">{{ role.name }}</div>
+        <div class="card-subtitle small text-dark">
+          {{ role.description }}
+          <div class="btn-group ml-2" role="group">
+            <a href="{{ url_for('admin.edit_role', id=role.id) }}" class="btn btn-sm px-1"
+              title="Edit role" data-toggle="tooltip">
+              <i class="fa fa-pencil"></i></a>
+            {% if not role.internal %}
+            <a href="{{ url_for('admin.delete_role', id=role.id) }}" class="btn btn-sm px-1"
+              title="Delete role" data-toggle="tooltip">
+              <i class="fa fa-trash-o"></i></a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+  <div class="row mt-4">
+    <a href="{{ url_for('admin.edit_role') }}">Add new role</a><br/>
+  </div>
+{% endblock %}

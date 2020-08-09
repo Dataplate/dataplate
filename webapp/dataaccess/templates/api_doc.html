@@ -1,0 +1,92 @@
+{% extends 'index.html' %}
+{% block subtitle %}API Documentation{% endblock %}
+
+{% block header %}
+<link href="{{ url_for('static', filename='css/code.css') }}?{{ config['VERSION'] }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <p class="mark text-muted">API Documentation</p>
+  </div>
+
+  <div class="row mb-3">
+    <p class="text-muted">This documentation covers what are methods for Data retrieval using this service.</p>
+    <p class="text-danger">Important! Always limit your queries using date ranges and/or other partitions to avoid 
+    overloading Spark cluster and exploding your process memory.</p>
+  </div>
+
+  <div class="row"><p class="lead">Python API</p></div>
+  <div class="row">
+    <p class="text-muted">
+    First, make sure your API access key is available through `DA_KEY` environment variable (alternatively, you can
+    use variable `DA_KEY_&lg;ENV&gt;` per environment, e.g. `DA_KEY_PRD` and `DA_KEY_DEV`).  For instance, you add the following
+    line to your `~/.bashrc` or `~/.zshrc` file:
+    </p>
+  </div>
+  <div class="row">
+  {% highlight 'bash' %}
+export DA_KEY="{{ current_user.access_key }}"
+  {% endhighlight %}
+  </div>
+  <div class="row"><p class="text-muted">Then, install the Python API library:</p></div>
+  <div class="row">
+  {% highlight 'bash' %}
+pip install \
+  --extra-index-url https://artifactory.in.dataplate.com/artifactory/api/pypi/dataplate-pypi/simple \
+  dataplate-dataaccess
+  {% endhighlight %}
+  </div>
+  <div class="row"><p class="text-muted">This example shows how to run a query, and return results as Pandas DataFrame object:</p></div>
+  <div class="row">
+  {% highlight 'python' %}
+from dataaccess.client import DataAccess
+
+dataAccess = DataAccess(env='{{ config['ENV'] }}')
+df = dataAccess.query_to_df('''
+  SELECT * FROM myTAble WHERE `date`='20200218' AND hour=12
+''')
+  {% endhighlight %}
+  </div>
+  <div class="row"><p class="text-muted">DataAccess() constructor accepts the following parameters:</p></div>
+  <div class="row">
+    <ul>
+      <li><b>env</b> - Environment to retrieve the Data from ('dev' or 'prd').</li>
+      <li><b>access_key</b> - Alternative method for supplying your access key.</li>
+    </ul>
+  </div>
+  <div class="row"><p class="text-muted">query_to_df() method accepts the following parameters:</p></div>
+  <div class="row">
+    <ul>
+      <li><b>query</b> - SQL query supported by Apache Spark.</li>
+      <li><b>refresh</b> - Avoid reusing cached data if such query was run already.</li>
+      <li><b>**kwargs</b> - Arbitrary arguments to pass to <a href="http://pandas.pydata.org/pandas-docs/stable/reference/frame.html#constructor">pandas.Dataframe</a> constructor.</li>
+    </ul>
+  </div>
+
+  <div class="row mt-5"><p class="lead">REST API</p></div>
+  <div class="row">
+    <p class="text-muted">
+    REST API is provided for advanced usage only (or for understanding what happens behind the scenes). Given the following
+    SQL chunk is saved in file called 'query.sql':
+    </p>
+  </div>
+  <div class="row">
+  {% highlight 'sql' %}
+SELECT * FROM myTAble WHERE `date`='20200218' AND hour=12
+  {% endhighlight %}
+  </div>
+  <div class="row">
+    <p class="text-muted">
+    The following cURL command describes how to send the query using REST API:
+    </p>
+  </div>
+  <div class="row">
+  {% highlight 'bash' %}
+curl -X POST \
+  -H "X-Access-Key: {{ current_user.access_key }}" \
+  -H "Content-Type: text/plain" \
+  --data-binary @query.sql http://{{ request.host }}{{ ':' + request.port if request.port else '' }}/api/query > results.json.gz
+  {% endhighlight %}
+  </div>
+{% endblock %}

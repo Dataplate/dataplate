@@ -1,0 +1,73 @@
+{% extends 'index.html' %}
+{% block subtitle %}Datasets{% endblock %}
+
+{% block header %}
+<link href="{{ url_for('static', filename='css/jquery.json-viewer.css') }}?{{ config['VERSION'] }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+  <div class="row mb-3">
+    <p class="mark text-muted">Datasets accessible via API</p>
+  </div>
+
+  {% for ds in datasets %}
+  <div class="row mb-3" data-id="{{ ds.id }}">
+    <div class="card col-md-8 col-sm-12 {{ 'bg-success-light' if ds.accessible_by(current_user) else 'bg-danger-light' }}">
+      <div class="card-body">
+        <div class="card-title">{{ ds.name }}
+          {% if not ds.anonymized %}<i class="text-muted fa fa-address-card-o" data-toggle="tooltip"
+            title="The dataset contains private user data"></i>{% endif %}</div>
+        <div class="card-subtitle small text-dark">
+          {{ ds.description }}
+          <div class="btn-group ml-2 text-info" role="group">
+            <a href="{{ config['PANOPTICON_URL'] }}/dataset_schema?uri={{ ds.source_url|urlencode }}"
+              target="_blank" class="btn btn-sm px-1" title="Lookup schema" data-toggle="tooltip">
+              <i class="fa fa-question"></i></a>
+            {% if ds.accessible_by(current_user) and not ds.is_redshift_source()%}
+              <a href="#" class="btn btn-sm px-1 run-query" title="Look inside"
+                data-toggle="tooltip" data-table="{{ ds.name }}"><i class="fa fa-eye"></i></a>
+            {% endif %}
+            {% if current_user.has_roles('admin', 'harvester') %}
+              <a href="{{ url_for('admin.edit_dataset', id=ds.id) }}" class="btn btn-sm px-1" title="Edit dataset" data-toggle="tooltip">
+                <i class="fa fa-pencil"></i></a>
+              <a href="{{ url_for('admin.clone_dataset', id=ds.id) }}" class="btn btn-sm px-1" title="Clone dataset" data-toggle="tooltip">
+                <i class="fa fa-clone"></i></a>
+              <a href="{{ url_for('admin.delete_dataset', id=ds.id) }}" class="btn btn-sm px-1" title="Delete dataset" data-toggle="tooltip">
+                <i class="fa fa-trash-o"></i></a>
+            {% endif %}
+          </div>
+        </div>
+        <p class="small text-muted mb-0">{{ ds.source_url }}</p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+  {% if current_user.has_roles('admin', 'harvester') %}
+  <div class="row mt-4">
+    <a href="{{ url_for('admin.edit_dataset') }}">Add new dataset</a><br/>
+  </div>
+  {% endif %}
+
+  <div class="modal fade" id="preview-dialog" tabindex="-1" role="dialog" aria-labelledby="preview-label"
+    aria-hidden="true">
+    <div class="modal-dialog small" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <p class="modal-title" id="preview-label"></p>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <pre id="preview-json"></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/datasets.js') }}?{{ config['VERSION'] }}"></script>
+  <script src="{{ url_for('static', filename='js/jquery.json-viewer.js') }}?{{ config['VERSION'] }}"></script>
+{% endblock %}

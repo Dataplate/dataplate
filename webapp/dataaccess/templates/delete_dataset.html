@@ -1,0 +1,23 @@
+{% extends 'index.html' %}
+{% block subtitle %}Delete Dataset{% endblock %}
+
+{% block content %}
+  <div class="row mb-3">
+    <p class="mark text-muted">Delete {{ dataset.name }} dataset</p>
+  </div>
+
+  <div class="row mb-3">
+    <div class="card border-light col-md-8">
+      <div class="card-body">
+        <p class="card-title">Are you sure you want to delete dataset '{{ dataset.name }}'?</p>
+        <form
+            method="POST"
+            action="{{ url_for('admin.delete_dataset', id=dataset.id) }}"
+            role="form">
+          {{ form.csrf_token }}
+          <button type="submit" class="btn btn-primary btn-sm">delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

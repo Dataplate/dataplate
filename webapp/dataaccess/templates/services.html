@@ -1,0 +1,33 @@
+{% extends 'index.html' %}
+{% block subtitle %}Service Accounts{% endblock %}
+
+{% block content %}
+  <div class="row mb-3">
+    <p class="mark text-muted">Manage service accounts</p>
+  </div>
+
+  {% for user in users %}
+  <div class="row mb-3" data-id="{{ user.id }}">
+    <div class="card border-light col-md-8">
+      <div class="card-body">
+        <div class="card-title">{{ user.username }}</div>
+        <div class="card-subtitle small text-dark">
+          {{ user.fullname }}
+          <div class="btn-group ml-2 text-info" role="group">
+            <a href="{{ url_for('admin.edit_service', id=user.id) }}" class="btn btn-sm px-1"
+              title="Edit service account" data-toggle="tooltip">
+              <i class="fa fa-pencil"></i></a>
+            <a href="{{ url_for('admin.delete_service', id=user.id) }}" class="btn btn-sm px-1"
+              title="Delete service account" data-toggle="tooltip">
+              <i class="fa fa-trash-o"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+  <div class="row mt-4">
+    <a href="{{ url_for('admin.edit_service') }}">Add service account</a><br/>
+  </div>
+{% endblock %}

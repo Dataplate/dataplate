@@ -1,0 +1,16 @@
+awscli==1.16.96
+python-ldap==3.1.0
+python-dateutil==2.8.0
+Flask-SQLAlchemy==2.3.1
+Flask-Migrate==2.3.1
+Flask-WTF==0.14.2
+Flask-Login==0.4.1
+datadog==0.22.0
+requests==2.21.0
+boto3==1.9.79
+jinja2-highlight==0.6.1
+werkzeug==0.15.6
+#ldap for windows: https://www.lfd.uci.edu/~gohlke/pythonlibs/#python-ldap
+#on windows: py -m pip install [package]
+email_validator
+psycopg2

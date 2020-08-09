@@ -1,0 +1,41 @@
+{% extends 'index.html' %}
+{% block subtitle %}Access Key{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <p class="mark text-muted">Private access key</p>
+  </div>
+  <div class="row mb-3">
+    <p class="text-muted">This access key help authorize you when using the Data Access API.</p>
+  </div>
+
+  <div class="row mb-3">
+    <div class="card border-light col-md-6">
+      <div class="card-body">
+        <form
+            method="POST"
+            action="{{ url_for('home.access_key') }}"
+            role="form">
+          {{ form.csrf_token }}
+          <div class="form-group">{{ form.access_key.label }}:
+            <div class="input-group">
+              {{ form.access_key(readonly='true', class='form-control form-control-sm', id='access-key') }}
+              <div class="input-group-append">
+                <button type="button" class="btn btn-default btn-sm" data-clipboard-target="#access-key"
+                  title="Copy to clipboard" data-toggle="tooltip"><span class="fa fa-copy"></span></button>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-sm">regenerate</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/clipboard-2.0.4.min.js') }}"></script>
+<script>
+  new ClipboardJS('.btn[data-clipboard-target]')
+</script>
+{% endblock %}

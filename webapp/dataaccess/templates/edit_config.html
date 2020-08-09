@@ -1,0 +1,29 @@
+{% extends 'index.html' %}
+{% block subtitle %}Configuration{% endblock %}
+
+{% block content %}
+  <div class="row mb-3">
+    <p class="mark text-muted">Edit system configuration</p>
+  </div>
+
+  <div class="row mb-3">
+    <div class="card border-light col-md-8">
+      <div class="card-body">
+        <form
+            method="POST"
+            action="{{ url_for('admin.edit_config') }}"
+            role="form">
+          {{ form.csrf_token }}
+          <div class="form-group">{{ form.livy_url.label }}: {{ form.livy_url(class='form-control form-control-sm') }}</div>
+          <div class="form-group">{{ form.session_wait_timeout.label }}: {{ form.session_wait_timeout(class='form-control form-control-sm') }}</div>
+          <div class="form-group">{{ form.statement_wait_timeout.label }}: {{ form.statement_wait_timeout(class='form-control form-control-sm') }}</div>
+          <div class="form-group">{{ form.session_name.label }}: {{ form.session_name(class='form-control form-control-sm') }}</div>
+          <div class="form-group">{{ form.driver_memory_mb.label }}: {{ form.driver_memory_mb(class='form-control form-control-sm') }}</div>
+          <div class="form-group">{{ form.spark_conf.label }}: {{ form.spark_conf(class='form-control form-control-sm') }}</div>
+          <div class="form-group">{{ form.reports_location.label }}: {{ form.reports_location(class='form-control form-control-sm') }}</div>
+          <button type="submit" class="btn btn-primary btn-sm">update</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

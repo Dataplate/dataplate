@@ -1,0 +1,28 @@
+{% extends 'index.html' %}
+{% block subtitle %}{{ 'Edit' if id else 'New' }} Dataset{% endblock %}
+
+{% block content %}
+  <div class="row mb-3">
+    <p class="mark text-muted">{% if id and not clone %}Edit {{ form.name.data }}{% else %}Add new{% endif %} dataset</p>
+  </div>
+
+  <div class="row mb-3">
+    <div class="card border-light col-md-6">
+      <div class="card-body">
+        <form
+            method="POST"
+            action="{% if id and not clone %}{{ url_for('admin.edit_dataset', id=id) }}{% else %}{{ url_for('admin.edit_dataset') }}{% endif %}"
+            role="form">
+          {{ form.csrf_token }}
+          <div class="form-group">{{ form.name.label }}: {{ form.name(class='form-control form-control-sm') }}</div>
+          <div class="form-group">{{ form.description.label }}: {{ form.description(class='form-control form-control-sm') }}</div>
+          <div class="form-group">{{ form.source_type.label }}: {{ form.source_type(class='form-control form-control-sm') }}</div>
+          <div class="form-group">{{ form.source_url.label }}: {{ form.source_url(class='form-control form-control-sm') }}</div>
+          <div class="form-group">{{ form.anonymized.label }}: {{ form.anonymized(class='form-control form-control-sm') }}</div>
+          <p class="text-muted small">(Anonymized datasets are accessible to everyone!)</p>
+          <button type="submit" class="btn btn-primary btn-sm">save</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
