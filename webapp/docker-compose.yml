@@ -1,0 +1,20 @@
+version: '3'
+services:
+  db:
+    image: postgres:12.4
+    environment:
+      POSTGRES_USER: da
+      POSTGRES_PASSWORD: da
+      POSTGRES_DB: da
+  webapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DA_SQLALCHEMY_DATABASE_URI: postgresql://da:da@db/da
+      DA_SECRET_KEY: BcmbPqfA6os9-5kdajQPUA
+      DA_ENV: local
+      DA_LOGIN_BACKEND: demo
+    command: db_upgrade run
+    ports:
+      - 5000:5000

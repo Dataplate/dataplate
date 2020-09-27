@@ -6,10 +6,8 @@ import logging
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
-# config =  Config("alembic.ini")#context.config
-# config.set_main_option("script_location", "webapp:migrations")
-# config.set_main_option("sqlalchemy.url", "postgresql://postgres:@localhost/dataaccess")
 config = context.config
+
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 fileConfig(config.config_file_name)
@@ -20,13 +18,9 @@ logger = logging.getLogger('alembic.env')
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 from flask import current_app
-config.set_main_option('sqlalchemy.url', current_app.config.get('SQLALCHEMY_DATABASE_URI'))
+config.set_main_option('sqlalchemy.url',
+                       current_app.config.get('SQLALCHEMY_DATABASE_URI'))
 target_metadata = current_app.extensions['migrate'].db.metadata
-
-# @classmethod
-# def setUpClass(self):
-#     self.app = current_app.create_app("testing")
-#     self.client = self.app.test_client()
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

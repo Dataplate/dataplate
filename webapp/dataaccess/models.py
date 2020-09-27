@@ -1,4 +1,3 @@
-import ldap
 import random
 import string
 from datetime import datetime
@@ -7,7 +6,7 @@ from sqlalchemy.dialects.postgresql import JSON, TSVECTOR
 from sqlalchemy.ext.associationproxy import association_proxy
 from flask_login import UserMixin
 
-from dataaccess.app import db, app
+from .app import db, app
 
 
 class SerializerMixin:
@@ -17,20 +16,13 @@ class SerializerMixin:
 
 user_roles = db.Table(
     'user_roles',
-    db.Column(
-        'user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
-    db.Column(
-        'role_id', db.Integer, db.ForeignKey('roles.id'), primary_key=True))
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
+    db.Column('role_id', db.Integer, db.ForeignKey('roles.id'), primary_key=True))
 
 role_datasets = db.Table(
     'role_datasets',
-    db.Column(
-        'role_id', db.Integer, db.ForeignKey('roles.id'), primary_key=True),
-    db.Column(
-        'dataset_id',
-        db.Integer,
-        db.ForeignKey('datasets.id'),
-        primary_key=True))
+    db.Column('role_id', db.Integer, db.ForeignKey('roles.id'), primary_key=True),
+    db.Column('dataset_id', db.Integer, db.ForeignKey('datasets.id'), primary_key=True))
 
 
 class GlobalConfig(db.Model, SerializerMixin):
@@ -38,18 +30,15 @@ class GlobalConfig(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     created_on = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_on = db.Column(
-        db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    livy_url = db.Column(
-        db.String(),
-        default='http://dev-spark-analytics.eu-west-1.rnd.internal:8998')
+    updated_on = db.Column(db.DateTime,
+                           default=datetime.utcnow,
+                           onupdate=datetime.utcnow)
+    livy_url = db.Column(db.String())
     session_wait_timeout = db.Column(db.Integer(), default=60)
     statement_wait_timeout = db.Column(db.Integer(), default=10 * 60 * 60)
     session_name = db.Column(db.String(100), default='DataAccess')
-    spark_conf = db.Column(
-        JSON, default='''{"spark.sql.shuffle.partitions": "25"}''')
+    spark_conf = db.Column(JSON, default='''{"spark.sql.shuffle.partitions": "25"}''')
     driver_memory_mb = db.Column(db.Integer(), default=4096)
-    reports_location = db.Column(db.String())
 
     @staticmethod
     def get():
@@ -66,21 +55,21 @@ class User(db.Model, UserMixin, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     created_on = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_on = db.Column(
-        db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_on = db.Column(db.DateTime,
+                           default=datetime.utcnow,
+                           onupdate=datetime.utcnow)
     username = db.Column(db.String(), unique=True)
     fullname = db.Column(db.String())
     access_key = db.Column(db.String(32), unique=True)
     service = db.Column(db.Boolean(), default=False)
-    roles = db.relationship(
-        'Role',
-        secondary=user_roles,
-        lazy='subquery',
-        backref=db.backref('users', lazy=True))
-    audit_sessions = db.relationship(
-        'AuditSession', backref='user', lazy='dynamic')
-    livy_session = db.relationship(
-        'LivySession', uselist=False, backref=db.backref('users'))
+    roles = db.relationship('Role',
+                            secondary=user_roles,
+                            lazy='subquery',
+                            backref=db.backref('users', lazy=True))
+    audit_sessions = db.relationship('AuditSession', backref='user', lazy='dynamic')
+    livy_session = db.relationship('LivySession',
+                                   uselist=False,
+                                   backref=db.backref('users'))
 
     def __init__(self, username=None, fullname=None, service=False):
         self.username = username
@@ -89,10 +78,8 @@ class User(db.Model, UserMixin, SerializerMixin):
         self.generate_access_key()
 
     def generate_access_key(self):
-        self.access_key = ''.join([
-            random.choice(string.ascii_letters + string.digits)
-            for n in range(32)
-        ])
+        self.access_key = ''.join(
+            [random.choice(string.ascii_letters + string.digits) for n in range(32)])
         from .audit import log_action
         log_action('generate_key')
 
@@ -111,13 +98,11 @@ class User(db.Model, UserMixin, SerializerMixin):
 class Dataset(db.Model, SerializerMixin):
     __tablename__ = 'datasets'
 
-    TYPES = [('parquet', 'Parquet Files'), ('csv', 'CSV Files'),
-             ('json', 'JSON Files'), ('redshift', 'Redshift Table'), ('glue', 'GLUE Table')]
-
     id = db.Column(db.Integer, primary_key=True)
     created_on = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_on = db.Column(
-        db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_on = db.Column(db.DateTime,
+                           default=datetime.utcnow,
+                           onupdate=datetime.utcnow)
     name = db.Column(db.String(), unique=True)
     description = db.Column(db.String())
     source_type = db.Column(db.String(20))
@@ -125,15 +110,8 @@ class Dataset(db.Model, SerializerMixin):
     anonymized = db.Column(db.Boolean(), default=False)
 
     def accessible_by(self, user):
-        return self.anonymized or self.query.filter(
-            Dataset.name == self.name).join(Role.datasets).filter(
-                Role.users.contains(user)).count() > 0
-
-    def is_redshift_source(self):
-        return self.source_type == self.TYPES[3][0]
-
-    def source_type_label(self):
-        return [t[1] for t in self.TYPES if t[0] == self.source_type][0]
+        return self.anonymized or self.query.filter(Dataset.name == self.name).join(
+            Role.datasets).filter(Role.users.contains(user)).count() > 0
 
 
 class Role(db.Model, SerializerMixin):
@@ -141,16 +119,16 @@ class Role(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     created_on = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_on = db.Column(
-        db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_on = db.Column(db.DateTime,
+                           default=datetime.utcnow,
+                           onupdate=datetime.utcnow)
     name = db.Column(db.String(), unique=True)
     description = db.Column(db.String())
     internal = db.Column(db.Boolean(), default=False)
-    datasets = db.relationship(
-        'Dataset',
-        secondary=role_datasets,
-        lazy='subquery',
-        backref=db.backref('roles', lazy=True))
+    datasets = db.relationship('Dataset',
+                               secondary=role_datasets,
+                               lazy='subquery',
+                               backref=db.backref('roles', lazy=True))
     user_names = association_proxy(
         'users',
         'username',
@@ -172,8 +150,9 @@ class AuditSession(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     created_on = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_on = db.Column(
-        db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_on = db.Column(db.DateTime,
+                           default=datetime.utcnow,
+                           onupdate=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     remote_ip = db.Column(db.String(16))
     entries = db.relationship('AuditEntry', backref='session', lazy='dynamic')
@@ -201,8 +180,9 @@ class LivySession(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     created_on = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_on = db.Column(
-        db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_on = db.Column(db.DateTime,
+                           default=datetime.utcnow,
+                           onupdate=datetime.utcnow)
     livy_id = db.Column(db.Integer)
     info = db.Column(JSON)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -213,8 +193,9 @@ class Query(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     created_on = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_on = db.Column(
-        db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_on = db.Column(db.DateTime,
+                           default=datetime.utcnow,
+                           onupdate=datetime.utcnow)
     name = db.Column(db.String(), unique=True)
     description = db.Column(db.String())
     sql = db.Column(db.String())

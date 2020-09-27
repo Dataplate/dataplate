@@ -1,19 +1,28 @@
+import os
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
+from flask_ldap3_login import LDAP3LoginManager
 from logging.config import dictConfig
+
+from .version import VERSION
 
 dictConfig({
     'version': 1,
-    'formatters': {'default': {
-        'format': '[%(asctime)s] %(levelname)s in %(module)s: %(message)s',
-    }},
-    'handlers': {'wsgi': {
-        'class': 'logging.StreamHandler',
-        'stream': 'ext://flask.logging.wsgi_errors_stream',
-        'formatter': 'default'
-    }},
+    'formatters': {
+        'default': {
+            'format': '[%(asctime)s] %(levelname)s in %(module)s: %(message)s',
+        }
+    },
+    'handlers': {
+        'wsgi': {
+            'class': 'logging.StreamHandler',
+            'stream': 'ext://flask.logging.wsgi_errors_stream',
+            'formatter': 'default'
+        }
+    },
     'root': {
         'level': 'INFO',
         'handlers': ['wsgi']
@@ -24,17 +33,21 @@ jinja_options = dict(Flask.jinja_options)
 jinja_options.setdefault('extensions', []).append('jinja2_highlight.HighlightExtension')
 
 app = Flask(__name__)
-#app.secret_key = "super secret key"
-app.config.from_object('dataaccess.config.Config')
+
+# All environment variables prefixed with 'DA_' automatically appended to the application config
+# (without the prefix)
+app.config.update({k[3:]: v for k, v in os.environ.items() if k.startswith('DA_')})
+app.config['VERSION'] = VERSION
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'home.login'
 
+from dataaccess.login import init_login_backend
 from dataaccess.models import *
 
 

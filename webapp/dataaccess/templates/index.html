@@ -14,10 +14,6 @@
         {% endif %}
         <a href="{{ url_for('admin.queries') }}">Run a query</a><br/>
 
-        {% if current_user.has_roles('admin', 'report-viewer') %}
-        <a href="{{ url_for('home.report') }}">Browse static reports</a><br/>
-        {% endif %}
-
         <a href="{{ url_for('home.current_session') }}">Current session</a><br/>
 
         {% if current_user.has_roles('admin') %}
