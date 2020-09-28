@@ -26,8 +26,7 @@
 <div class="row">
   <div class="form-group col-md-12">
     <p class="text-muted">
-    First, make sure your API access key is available through `DA_KEY` environment variable.  For instance, you add the following
-    line to your <code>~/.profile</code> file:
+    First, make sure to set `DA_KEY` and `DA_URI` environment variables to your private access key and to the DataPlate Portal URI respectively. For instance, you add the following line to your <code>~/.profile</code> file:
     </p>
   </div>
 </div>
@@ -36,6 +35,7 @@
   <div class="form-group col-md-12">
 {% highlight 'bash' %}
 export DA_KEY="{{ current_user.access_key }}"
+export DA_URI="http://{{ request.host }}{{ ':' + request.port if request.port else '' }}"
 {% endhighlight %}
   </div>
 </div>
@@ -67,7 +67,7 @@ dataplate-dataaccess
 {% highlight 'python' %}
 from dataaccess.client import DataAccess
 
-dataAccess = DataAccess(env='{{ config['ENV'] }}')
+dataAccess = DataAccess()
 df = dataAccess.query_to_df('''
 SELECT * FROM myTAble WHERE `date`='20200218' AND hour=12
 ''')
@@ -86,6 +86,7 @@ SELECT * FROM myTAble WHERE `date`='20200218' AND hour=12
     <ul>
       <li><b>env</b> - Environment to retrieve the Data from ('dev' or 'prd').</li>
       <li><b>access_key</b> - Alternative method for supplying your access key.</li>
+      <li><b>dataplate_ur</b> - Alternative method for supplying DataPlate Portal URI.</li>
     </ul>
   </div>
 </div>

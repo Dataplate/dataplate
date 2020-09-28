@@ -11,7 +11,7 @@
 
 <div class="row">
   <div class="form-group col-md-12">
-    <p class="text-muted">All datasets</p>
+    <p class="text-muted">All available datasets (inaccessible datasets are grayed out)</p>
     {% include 'messages.html' %}
   </div>
 </div>
@@ -19,23 +19,23 @@
 {% for ds in datasets %}
 <div class="row mb-3" data-id="{{ ds.id }}">
   <div class="form-group col-md-12">
-    <div class="card {{ 'ds-inaccessible' if not ds.accessible_by(current_user) }}">
+    <div class="card {{ 'bg-light text-muted' if not ds.accessible_by(current_user) }}">
       <div class="card-body">
-        <div class="btn-group float-right text-info" role="group">
+        <div class="btn-group float-right" role="group">
           {% if ds.accessible_by(current_user) %}
-            <a href="#" class="btn btn-default btn-sm px-1 run-query" title="Look inside"
-              data-toggle="tooltip" data-table="{{ ds.name }}"><i class="fa fa-eye"></i></a>
+            <a href="#" class="btn btn-light btn-sm run-query" title="Look inside"
+              data-toggle="tooltip" data-table="{{ ds.name }}"><i class="far fa-eye"></i></a>
           {% endif %}
           {% if current_user.has_roles('admin', 'harvester') %}
-            <a href="{{ url_for('admin.edit_dataset', id=ds.id) }}" class="btn btn-default btn-sm px-1" title="Edit dataset" data-toggle="tooltip">
-              <i class="fa fa-edit"></i></a>
-            <a href="{{ url_for('admin.clone_dataset', id=ds.id) }}" class="btn btn-default btn-sm px-1" title="Clone dataset" data-toggle="tooltip">
-              <i class="fa fa-clone"></i></a>
-            <a href="{{ url_for('admin.delete_dataset', id=ds.id) }}" class="btn btn-default btn-sm px-1" title="Delete dataset" data-toggle="tooltip">
-              <i class="fa fa-trash"></i></a>
+            <a href="{{ url_for('admin.edit_dataset', id=ds.id) }}" class="btn btn-light btn-sm" title="Edit dataset" data-toggle="tooltip">
+              <i class="far fa-edit"></i></a>
+            <a href="{{ url_for('admin.clone_dataset', id=ds.id) }}" class="btn btn-light btn-sm" title="Clone dataset" data-toggle="tooltip">
+              <i class="far fa-clone"></i></a>
+            <a href="{{ url_for('admin.delete_dataset', id=ds.id) }}" class="btn btn-light btn-sm" title="Delete dataset" data-toggle="tooltip">
+              <i class="far fa-trash-alt"></i></a>
           {% endif %}
         </div>
-        <div class="card-title">{{ ds.name }}</div>
+        <h5 class="card-title">{{ ds.name }}</h5>
         <div class="card-subtitle text-muted">{{ ds.description }}</div>
       </div>
     </div>

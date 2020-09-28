@@ -6,6 +6,7 @@ Web service and API that provides audited access to Data sets.
 
 ## Projects
 
- * [webapp](webapp/README.md) - Data Access Portal Web service.
- * [api](api/README.md) - Data Access API.
+[Data Access Portal Web service](webapp/README.md)   
+
+[Data Access API](api/README.md)   
 

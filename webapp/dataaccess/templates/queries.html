@@ -18,16 +18,16 @@
     <div class="card">
       <div class="card-body">
         <div class="btn-group float-right" role="group">
-          <a href="{{ url_for('home.run_query', id=query.id) }}" class="btn btn-default btn-sm px-1" title="Run query" data-toggle="tooltip">
-            <i class="fa fa-play-circle"></i></a>
+          <a href="{{ url_for('home.run_query', id=query.id) }}" class="btn btn-light btn-sm" title="Run query" data-toggle="tooltip">
+            <i class="far fa-play-circle"></i></a>
           {% if current_user.has_roles('admin', 'query-builder') %}
-            <a href="{{ url_for('admin.edit_query', id=query.id) }}" class="btn btn-default btn-sm px-1" title="Edit query" data-toggle="tooltip">
-              <i class="fa fa-edit"></i></a>
-            <a href="{{ url_for('admin.delete_query', id=query.id) }}" class="btn btn-default btn-sm px-1" title="Delete query" data-toggle="tooltip">
-              <i class="fa fa-trash"></i></a>
+            <a href="{{ url_for('admin.edit_query', id=query.id) }}" class="btn btn-light btn-sm" title="Edit query" data-toggle="tooltip">
+              <i class="far fa-edit"></i></a>
+            <a href="{{ url_for('admin.delete_query', id=query.id) }}" class="btn btn-light btn-sm" title="Delete query" data-toggle="tooltip">
+              <i class="far fa-trash-alt"></i></a>
           {% endif %}
         </div>
-        <div class="card-title">{{ query.name }}</div>
+        <h5 class="card-title">{{ query.name }}</h5>
         <div class="card-subtitle text-muted">{{ query.description }}</div>
       </div>
     </div>

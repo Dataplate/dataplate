@@ -18,17 +18,17 @@
     <div class="card">
       <div class="card-body">
         <div class="btn-group float-right" role="group">
-          <a href="{{ url_for('admin.edit_role', id=role.id) }}" class="btn btn-default px-1"
-            title="Edit role" data-toggle="tooltip">
-            <i class="fa fa-edit"></i></a>
+          <a href="{{ url_for('admin.edit_role', id=role.id) }}" class="btn btn-light btn-sm" title="Edit role" data-toggle="tooltip">
+            <i class="far fa-edit"></i>
+          </a>
           {% if not role.internal %}
-          <a href="{{ url_for('admin.delete_role', id=role.id) }}" class="btn btn-default px-1"
-            title="Delete role" data-toggle="tooltip">
-            <i class="fa fa-trash"></i></a>
+          <a href="{{ url_for('admin.delete_role', id=role.id) }}" class="btn btn-light btn-sm" title="Delete role" data-toggle="tooltip">
+            <i class="far fa-trash-alt"></i>
+          </a>
           {% endif %}
         </div>
-        <div class="card-title">{{ role.name }}</div>
-        <div class="card-subtitle small text-dark">{{ role.description }}</div>
+        <h5 class="card-title">{{ role.name }}</h5>
+        <div class="card-subtitle text-muted">{{ role.description }}</div>
       </div>
     </div>
   </div>
