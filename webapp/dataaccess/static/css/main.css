@@ -457,7 +457,3 @@ body,html {
   margin-top: 1em;
   width: 100%;
 }
-
-.ds-inaccessible {
-  background-color: rgba(220, 53, 69, 0.1) !important;
-}

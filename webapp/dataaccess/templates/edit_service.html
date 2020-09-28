@@ -2,7 +2,7 @@
 {% block subtitle %}{{ 'Edit' if id else 'New' }} Service Account{% endblock %}
 
 {% block content %}
-<h2>{% if id %}Edit <i>{{ form.name.data }}</i> service account{% else %}Add new service account{% endif %}</h2>
+<h2>{% if id %}Edit <i>{{ form.username.data }}</i> service account{% else %}Add new service account{% endif %}</h2>
 <hr>
 
 <div class="row">
@@ -30,7 +30,12 @@
           </div>
         </div>
       </div>
-      <div class="form-group">{{ form.regenerate_key.label }}: {{ form.regenerate_key(class='form-control') }}</div>
+      <div class="form-group mt-4">
+        <div class="input-group">
+          <div>{{ form.regenerate_key }}</div>
+          <div class="ml-3">{{ form.regenerate_key.label }}</div>
+        </div>
+      </div>
       {% endif %}
       <button type="submit" class="btn btn-info">Save</button>
     </form>

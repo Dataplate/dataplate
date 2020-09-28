@@ -7,7 +7,7 @@
 
 <div class="row">
   <div class="form-group col-md-12">
-    <p class="text-muted">Service accounts are principal identities managed by the Data Plate, and they should used for automatic processes.</p>
+    <p class="text-muted">Service accounts are principal identities managed by the DataPlate, and they should used for automatic processes.</p>
     {% include 'messages.html' %}
   </div>
 </div>
@@ -18,15 +18,15 @@
     <div class="card">
       <div class="card-body">
         <div class="btn-group float-right" role="group">
-          <a href="{{ url_for('admin.edit_service', id=user.id) }}" class="btn btn-sm px-1"
+          <a href="{{ url_for('admin.edit_service', id=user.id) }}" class="btn btn-light btn-sm"
             title="Edit service account" data-toggle="tooltip">
-            <i class="fa fa-edit"></i></a>
-          <a href="{{ url_for('admin.delete_service', id=user.id) }}" class="btn btn-sm px-1"
+            <i class="far fa-edit"></i></a>
+          <a href="{{ url_for('admin.delete_service', id=user.id) }}" class="btn btn-light btn-sm"
             title="Delete service account" data-toggle="tooltip">
-            <i class="fa fa-trash"></i></a>
+            <i class="far fa-trash-alt"></i></a>
         </div>
-        <div class="card-title">{{ user.username }}</div>
-        <div class="card-subtitle small text-dark">{{ user.fullname }}</div>
+        <h5 class="card-title">{{ user.username }}</h5>
+        <div class="card-subtitle text-muted">{{ user.fullname }}</div>
       </div>
     </div>
   </div>
