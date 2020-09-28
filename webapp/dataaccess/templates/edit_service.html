@@ -2,41 +2,40 @@
 {% block subtitle %}{{ 'Edit' if id else 'New' }} Service Account{% endblock %}
 
 {% block content %}
-  <div class="row mb-3">
-    <p class="mark text-muted">{% if id %}Edit {{ form.username.data }}{% else %}Add new{% endif %} service account</p>
-  </div>
-  <div class="row mb-3">
-    <p class="text-muted">Service account allows using Data Access API from within non-interactive process.</p>
-  </div>
+<h2>{% if id %}Edit <i>{{ form.name.data }}</i> service account{% else %}Add new service account{% endif %}</h2>
+<hr>
 
-  <div class="row mb-3">
-    <div class="card border-light col-md-6">
-      <div class="card-body">
-        <form
-            method="POST"
-            action="{% if id %}{{ url_for('admin.edit_service', id=id) }}{% else %}{{ url_for('admin.edit_service') }}{% endif %}"
-            role="form">
-          {{ form.csrf_token }}
-          <div class="form-group">{{ form.username.label }}: {{ form.username(class='form-control form-control-sm') }}</div>
-          <div class="form-group">{{ form.fullname.label }}: {{ form.fullname(class='form-control form-control-sm') }}</div>
-          {% if id %}
-          <div class="form-group">{{ form.access_key.label }}: <div class="input-group">
-              {{ form.access_key(readonly='true', class='form-control form-control-sm', id='access-key') }}
-              <div class="input-group-append">
-                <button type="button" class="btn btn-default btn-sm" data-clipboard-target="#access-key"
-                  title="Copy to clipboard" data-toggle="tooltip"><span class="fa fa-copy"></span></button>
-              </div>
-            </div>
-          </div>
-          <div class="form-group">{{ form.regenerate_key.label }}: {{ form.regenerate_key(class='form-control form-control-sm') }}</div>
-          {% endif %}
-          <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-sm">save</button>
-          </div>
-        </form>
-      </div>
-    </div>
+<div class="row">
+  <div class="form-group col-md-12">
+    <p class="text-muted">Service account allows using Data Access API from within non-interactive process.</p>
+    {% include 'messages.html' %}
   </div>
+</div>
+
+<div class="row">
+  <div class="form-group col-md-12">
+    <form
+        method="POST"
+        action="{% if id %}{{ url_for('admin.edit_service', id=id) }}{% else %}{{ url_for('admin.edit_service') }}{% endif %}"
+        role="form">
+      {{ form.csrf_token }}
+      <div class="form-group">{{ form.username.label }}: {{ form.username(class='form-control') }}</div>
+      <div class="form-group">{{ form.fullname.label }}: {{ form.fullname(class='form-control') }}</div>
+      {% if id %}
+      <div class="form-group">{{ form.access_key.label }}: <div class="input-group">
+          {{ form.access_key(readonly='true', class='form-control', id='access-key') }}
+          <div class="input-group-append">
+            <button type="button" class="btn btn-default btn-sm" data-clipboard-target="#access-key"
+              title="Copy to clipboard" data-toggle="tooltip"><span class="fa fa-copy"></span></button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">{{ form.regenerate_key.label }}: {{ form.regenerate_key(class='form-control') }}</div>
+      {% endif %}
+      <button type="submit" class="btn btn-info">Save</button>
+    </form>
+  </div>
+</div>
 {% endblock %}
 
 {% block scripts %}

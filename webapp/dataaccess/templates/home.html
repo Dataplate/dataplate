@@ -1,0 +1,21 @@
+{% extends 'index.html' %}
+{% block subtitle %}Home{% endblock %}
+
+{% block content %}
+<h2>Home</h2>
+<hr>
+
+<div class="row">
+  <div class="form-group col-md-12">
+    {% include 'messages.html' %}
+  </div>
+</div>
+
+<div class="row">
+  <div class="form-group col-md-12">
+    <p class="lead">
+      Welcome to the DataPlate Data Access Portal{% if current_user.is_authenticated %}, {{ current_user.fullname }}{% endif %}!
+    </p>
+  </div>
+</div>
+{% endblock %}

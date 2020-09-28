@@ -2,63 +2,70 @@
 {% block subtitle %}Audit Log{% endblock %}
 
 {% block header %}
-<link href="{{ url_for('static', filename='css/tempusdominus-bootstrap4-5.0.0alpha14.min.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/tempusdominus-5.0.1.min.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
-  <div class="row">
-    <p class="mark text-muted">Audit Log</p>
-  </div>
+<h2>Audit Log</h2>
+<hr>
 
-  <div class="row mb-3 justify-content-end">
-    <div class="col-12 p-0">
-      <form class="form-inline float-right" method="GET" role="form">
-        {{ form.from_date(class='form-control form-control-sm datetimepicker-input mr-sm-2', data_toggle='datetimepicker',
-          data_target='#'+form.from_date.id, placeholder=form.from_date.label.text, aria_label=form.from_date.label.text) }}
-        {{ form.to_date(class='form-control form-control-sm datetimepicker-input mr-sm-2', data_toggle='datetimepicker',
-          data_target='#'+form.to_date.id, placeholder=form.to_date.label.text, aria_label=form.to_date.label.text) }}
-        {{ form.query(class='form-control form-control-sm mr-sm-2', placeholder=form.query.label.text,
-          aria_label=form.query.label.text) }}
-        <button class="btn btn-outline-success btn-sm my-2 my-sm-0" type="submit">search</button>
-      </form>
-    </div>
+<div class="row">
+  <div class="form-group col-md-12">
+    {% include 'messages.html' %}
   </div>
-  <div class="row">
-    <div class="col-12 p-0">
-      <table class="table table-borderless table-light table-sm">
-        <thead>
-          <tr>
-            <th scope="col" style="width: 20%">Date</th>
-            <th scope="col" style="width: 25%">User</th>
-            <th scope="col" style="width: 15%">Type</th>
-            <th scope="col" style="width: 50%">Text</th>
-          </tr>
-        </thead>
-        <tbody>
-        {% for entry in pagination.items %}
-          <tr>
-            <td class="small">{{ entry.created_on.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-            <td class="small">{{ entry.session.user.username }}</td>
-            <td class="small">{{ entry.kind }}</td>
-            <td class="small">{{ entry.text }}</td>
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </div>
+</div>
 
-  <div class="row mt-4">
-    {% if pagination.has_prev %}<a href="{{ url_for('admin.audit_log', page=pagination.prev_num,
-      from_date=form.from_date.data, to_date=form.to_date.data, query=form.query.data) }}">Previous</a>&nbsp;&nbsp;&nbsp;{% endif %}
-    {% if pagination.has_next %}<a href="{{ url_for('admin.audit_log', page=pagination.next_num,
-      from_date=form.from_date.data, to_date=form.to_date.data, query=form.query.data) }}">Next</a>{% endif %}
+<div class="row mb-3">
+  <div class="form-group col-md-12">
+    <form class="form-inline float-right" method="GET" role="form">
+      {{ form.from_date(class='form-control datetimepicker-input mr-sm-2', data_toggle='datetimepicker',
+        data_target='#'+form.from_date.id, placeholder=form.from_date.label.text, aria_label=form.from_date.label.text) }}
+      {{ form.to_date(class='form-control datetimepicker-input mr-sm-2', data_toggle='datetimepicker',
+        data_target='#'+form.to_date.id, placeholder=form.to_date.label.text, aria_label=form.to_date.label.text) }}
+      {{ form.query(class='form-control mr-sm-2', placeholder=form.query.label.text, aria_label=form.query.label.text) }}
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
   </div>
+</div>
+
+<div class="row">
+  <div class="form-group col-12">
+    <table class="table table-borderless table-light table-sm">
+      <thead>
+        <tr>
+          <th scope="col" style="width: 20%">Date</th>
+          <th scope="col" style="width: 25%">User</th>
+          <th scope="col" style="width: 15%">Type</th>
+          <th scope="col" style="width: 50%">Text</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for entry in pagination.items %}
+        <tr>
+          <td class="small">{{ entry.created_on.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+          <td class="small">{{ entry.session.user.username }}</td>
+          <td class="small">{{ entry.kind }}</td>
+          <td class="small">{{ entry.text }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="row mt-4">
+  <div class="form-group col-12">
+  {% if pagination.has_prev %}<a href="{{ url_for('admin.audit_log', page=pagination.prev_num,
+    from_date=form.from_date.data, to_date=form.to_date.data, query=form.query.data) }}">Previous</a>&nbsp;&nbsp;&nbsp;{% endif %}
+  {% if pagination.has_next %}<a href="{{ url_for('admin.audit_log', page=pagination.next_num,
+    from_date=form.from_date.data, to_date=form.to_date.data, query=form.query.data) }}">Next</a>{% endif %}
+  </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
 <script src="{{ url_for('static', filename='js/moment-2.24.0.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/tempusdominus-bootstrap4-5.0.0alpha14.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/tempusdominus-5.0.1.min.js') }}"></script>
 <script>
   $(function () {
     $('.datetimepicker-input').each(function() {

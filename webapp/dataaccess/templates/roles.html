@@ -2,34 +2,42 @@
 {% block subtitle %}Roles{% endblock %}
 
 {% block content %}
-  <div class="row mb-3">
-    <p class="mark text-muted">Manage roles and permissions</p>
-  </div>
+<h2>Roles and permissions</h2>
+<hr>
 
-  {% for role in roles %}
-  <div class="row mb-3" data-id="{{ role.id }}">
-    <div class="card border-light col-md-8">
+<div class="row">
+  <div class="form-group col-md-12">
+    <p class="text-muted">Manage roles and permissions</p>
+    {% include 'messages.html' %}
+  </div>
+</div>
+
+{% for role in roles %}
+<div class="row mb-3" data-id="{{ role.id }}">
+  <div class="form-group col-md-12">
+    <div class="card">
       <div class="card-body">
-        <div class="card-title">{{ role.name }}</div>
-        <div class="card-subtitle small text-dark">
-          {{ role.description }}
-          <div class="btn-group ml-2" role="group">
-            <a href="{{ url_for('admin.edit_role', id=role.id) }}" class="btn btn-sm px-1"
-              title="Edit role" data-toggle="tooltip">
-              <i class="fa fa-pencil"></i></a>
-            {% if not role.internal %}
-            <a href="{{ url_for('admin.delete_role', id=role.id) }}" class="btn btn-sm px-1"
-              title="Delete role" data-toggle="tooltip">
-              <i class="fa fa-trash-o"></i></a>
-            {% endif %}
-          </div>
+        <div class="btn-group float-right" role="group">
+          <a href="{{ url_for('admin.edit_role', id=role.id) }}" class="btn btn-default px-1"
+            title="Edit role" data-toggle="tooltip">
+            <i class="fa fa-edit"></i></a>
+          {% if not role.internal %}
+          <a href="{{ url_for('admin.delete_role', id=role.id) }}" class="btn btn-default px-1"
+            title="Delete role" data-toggle="tooltip">
+            <i class="fa fa-trash"></i></a>
+          {% endif %}
         </div>
+        <div class="card-title">{{ role.name }}</div>
+        <div class="card-subtitle small text-dark">{{ role.description }}</div>
       </div>
     </div>
   </div>
-  {% endfor %}
+</div>
+{% endfor %}
 
-  <div class="row mt-4">
-    <a href="{{ url_for('admin.edit_role') }}">Add new role</a><br/>
+<div class="row mt-4">
+  <div class="form-group col-md-12">
+    <a class="btn btn-info" href="{{ url_for('admin.edit_role') }}">Add new role</a>
   </div>
+</div>
 {% endblock %}

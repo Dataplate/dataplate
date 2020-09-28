@@ -24,7 +24,7 @@ def health():
 @home.route('/home')
 @login_required
 def index():
-    return render_template('index.html')
+    return render_template('home.html')
 
 
 @home.route('/login', methods=['GET', 'POST'])

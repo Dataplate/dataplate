@@ -2,42 +2,44 @@
 {% block subtitle %}Current Session{% endblock %}
 
 {% block content %}
-  <div class="row">
-    <p class="mark text-muted">Current session</p>
-  </div>
+<h2>Current session</h2>
+<hr>
 
-  <div class="row mb-3">
-  {% if not current_user.livy_session %}
+<div class="row">
+  <div class="form-group col-md-12">
+    {% if not current_user.livy_session %}
     <p class="text-muted">You haven't started any sessions yet.</p>
-  {% else %}
+    {% else %}
     <p class="text-muted">Here you can see the status of your Spark session.</p>
+    {% endif %}
+    {% include 'messages.html' %}
   </div>
-  <div class="row">
-    <div class="card border-light col-md-6">
-      <div class="card-body">
-        <div class="row justify-content-start">
-          <p class="text-muted col-4 p-0">Status: </p>
-          <p>{{ current_user.livy_session.info['state'] }}</p>
-        </div>
-        <div class="row justify-content-start">
-          <p class="text-muted col-4 p-0">Last status update: </p>
-          <p>{{ current_user.livy_session.updated_on.strftime('%Y-%m-%d %H:%M:%S') }}</p>
-        </div>
-        <div class="row justify-content-start">
-          <p class="text-muted col-4 p-0">Spark UI: </p>
-          <a href="{{ current_user.livy_session.info['appInfo']['sparkUiUrl'] }}" target="_blank">open</a>
-        </div>
-        <div class="row">
-          <form
-              method="POST"
-              action="{{ url_for('home.current_session') }}"
-              role="form">
-            {{ form.csrf_token }}
-            <button type="submit" class="btn btn-primary btn-sm">refresh</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  {% endif %}
+</div>
+
+{% if current_user.livy_session %}
+<div class="row form-group">
+  <div class="col-4">Status:</div>
+  <div class="col-8">{{ current_user.livy_session.info['state'] }}</div>
+</div>
+
+<div class="row form-group">
+  <div class="col-4">Last status update: </div>
+  <div class="col-8">{{ current_user.livy_session.updated_on.strftime('%Y-%m-%d %H:%M:%S') }}</div>
+</div>
+
+<div class="row form-group">
+  <div class="col-4">Spark UI: </div>
+  <div class="col-8"><a href="{{ current_user.livy_session.info['appInfo']['sparkUiUrl'] }}" target="_blank">Open in new window</a></div>
+</div>
+
+<div class="row form-group mt-4">
+  <div class="col-md-12">
+    <form method="POST" action="{{ url_for('home.current_session') }}" role="form">
+      {{ form.csrf_token }}
+      <button type="submit" class="btn btn-info">Refresh</button>
+    </form>
   </div>
+</div>
+{% endif %}
+
 {% endblock %}

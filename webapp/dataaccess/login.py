@@ -1,7 +1,7 @@
 from flask_ldap3_login import LDAP3LoginManager, AuthenticationResponseStatus
 
 from .app import app, db
-from .models import User
+from .models import User, Role
 
 authenticate = None
 
@@ -36,7 +36,14 @@ def ldap_authenticate(username, password):
 
 def demo_authenticate(username, password):
     if username == 'demo@dataplate.io' and password == 'demo':
-        return get_or_add_user(username, 'Demo User')
+        user = get_or_add_user(username, 'Demo User')
+        # Add the demo user to all existing roles
+        if len(user.roles) == 0:
+            for role in Role.query.all():
+                role.user_names.append(username)
+                db.session.add(role)
+            db.session.commit()
+        return user
     raise Exception('Wrong user/password combination!')
 
 

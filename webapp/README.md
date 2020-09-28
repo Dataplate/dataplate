@@ -32,15 +32,23 @@ Prepare the virtual environment:
 python3 -mvenv venv
 source venv/bin/activate
 pip install -r requirements.txt
+
+Create database schema:
+
+```bash
+DA_SECRET_KEY=BcmbPqfA6os9-5kdajQPUA \
+DA_SQLALCHEMY_DATABASE_URI=postgresql://da:da@localhost/da \
+DA_LOGIN_BACKEND=demo \
+FLASK_APP=dataaccess.app \
+flask db upgrade
 ```
 
 Run the application:
 
 ```bash
 DA_SECRET_KEY=BcmbPqfA6os9-5kdajQPUA \
-  DA_SQLALCHEMY_DATABASE_URI=postgresql://da:da@localhost/da \
-  DA_ENV=local \
-  DA_LOGIN_BACKEND=demo \
-  FLASK_APP=dataaccess.app \
-  flask run
+DA_SQLALCHEMY_DATABASE_URI=postgresql://da:da@localhost/da \
+DA_LOGIN_BACKEND=demo \
+FLASK_APP=dataaccess.app \
+flask run
 ```

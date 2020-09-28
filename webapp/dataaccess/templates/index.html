@@ -1,38 +1,83 @@
 {% extends 'base.html' %}
  
-{% block container %}
-  <div class="row mt-2 mb-2">
-    <div class="card col-md-4 col-sm-12">
-      <div class="card-body">
-        <a href="{{ url_for('home.access_key') }}">Private access key</a><br/>
-        <a href="{{ url_for('home.api_doc') }}">API documentation</a><br/>
+{% block body %}
+<div class="page-wrapper chiller-theme toggled">
+  <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+    <i class="fas fa-bars"></i>
+  </a>
+  <nav id="sidebar" class="sidebar-wrapper">
+    <div class="sidebar-content">
+      <div class="sidebar-brand">
+        <a href="#">DataPlate.io</a>
+        <div id="close-sidebar"><i class="fas fa-angle-left"></i></div>
+      </div>
 
-        {% if current_user.has_roles('admin', 'harvester') %}
-        <a href="{{ url_for('admin.datasets') }}">Manage datasets</a><br/>
-        {% else %}
-        <a href="{{ url_for('home.datasets') }}">View datasets</a><br/>
-        {% endif %}
-        <a href="{{ url_for('admin.queries') }}">Run a query</a><br/>
+      <div class="sidebar-header">
+        <div class="user-pic">
+          <img class="img-responsive img-rounded" src="{{ url_for('static', filename='img/user.png') }}">
+        </div>
+        <div class="user-info">
+          <span class="user-name"><strong>{{ current_user.fullname }}</strong></span>
+          <span class="user-role">{{ current_user.main_role_name() }}</span>
+        </div>
+      </div>
 
-        <a href="{{ url_for('home.current_session') }}">Current session</a><br/>
+      <div class="sidebar-menu">
+        <ul>
+          <li class="header-menu"><span>Home</span></li>
+          <li>
+            <a href="{{ url_for('home.api_doc') }}"><i class="fa fa-info"></i><span>API documentation</span></a>
+          </li>
+          <li>
+            <a href="{{ url_for('home.access_key') }}"><i class="fa fa-key"></i><span>Private access key</span></a>
+          </li>
 
-        {% if current_user.has_roles('admin') %}
-        <a href="{{ url_for('admin.roles') }}">Roles and permissions</a><br/>
-        <a href="{{ url_for('admin.services') }}">Manage service accounts</a><br/>
-        {% endif %}
+          <li class="header-menu"><span>Query</span></li>
+          <li>
+            <a href="{{ url_for('home.datasets') }}"><i class="fa fa-table"></i><span>View datasets</span></a>
+          </li>
+          <li>
+            <a href="{{ url_for('admin.queries') }}"><i class="fa fa-running"></i><span>Run a query</span></a>
+          </li>
+          <li>
+            <a href="{{ url_for('home.current_session') }}"><i class="fa fa-eye"></i><span>View current session</span></a>
+          </li>
 
-        {% if current_user.has_roles('admin') %}
-        <a href="{{ url_for('admin.edit_config') }}">System configuration</a><br/>
-        {% endif %}
+          {% if current_user.has_roles('admin') %}
+          <li class="header-menu"><span>Admin</span></li>
+          <li>
+            <a href="{{ url_for('admin.roles') }}"><i class="fa fa-lock"></i><span>Roles and permissions</span></a>
+          </li>
+          {% if current_user.has_roles('admin', 'harvester') %}
+          <li>
+            <a href="{{ url_for('admin.datasets') }}"><i class="fa fa-table"></i><span>Manage datasets</span></a>
+          </li>
+          {% endif %}
+          <li>
+            <a href="{{ url_for('admin.services') }}"><i class="fa fa-robot"></i><span>Manage service accounts</span></a>
+          </li>
+          <li>
+            <a href="{{ url_for('admin.edit_config') }}"><i class="fa fa-cog"></i><span>System configuration</span></a>
+          </li>
+          {% if current_user.has_roles('auditor') %}
+          <li>
+            <a href="{{ url_for('admin.audit_log') }}"><i class="fa fa-book-reader"></i><span>Audit log</span></a>
+          </li>
+          {% endif %}
+          {% endif %}
 
-        {% if current_user.has_roles('admin', 'auditor') %}
-        <a href="{{ url_for('admin.audit_log') }}">Audit log</a><br/>
-        {% endif %}
-
-        <a href="{{ url_for('home.logout') }}">Logout</a><br/>
+          <li class="header-menu"><span>System</span></li>
+          <li>
+            <a href="{{ url_for('home.logout') }}"><i class="fa fa-power-off"></i><span>Logout</span></a>
+          </li>
+        </ul>
       </div>
     </div>
-  </div>
-  <br/>
-  {% block content %}{% endblock %}
+  </nav>
+  <main class="page-content">
+    <div class="container-fluid">
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+</div>
 {% endblock %}
