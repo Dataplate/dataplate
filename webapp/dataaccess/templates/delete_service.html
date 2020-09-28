@@ -2,22 +2,22 @@
 {% block subtitle %}Delete Service User{% endblock %}
 
 {% block content %}
-  <div class="row mb-3">
-    <p class="mark text-muted">Delete {{ user.username }} service account</p>
-  </div>
+<h2>Delete <i>{{ user.username }}</i></h2>
+<hr>
 
-  <div class="row mb-3">
-    <div class="card border-light col-md-8">
-      <div class="card-body">
-        <p class="card-title">Are you sure you want to delete service account '{{ user.username }}'?</p>
-        <form
-            method="POST"
-            action="{{ url_for('admin.delete_service', id=user.id) }}"
-            role="form">
-          {{ form.csrf_token }}
-          <button type="submit" class="btn btn-primary btn-sm">delete</button>
-        </form>
-      </div>
-    </div>
+<div class="row">
+  <div class="form-group col-md-12">
+    {% include 'messages.html' %}
   </div>
+</div>
+
+<div class="row mb-3">
+  <div class="form-group col-md-12">
+    <p>Are you sure you want to delete service account '{{ user.username }}'?</p>
+    <form method="POST" action="{{ url_for('admin.delete_service', id=user.id) }}" role="form">
+      {{ form.csrf_token }}
+      <button type="submit" class="btn btn-info">Delete</button>
+    </form>
+  </div>
+</div>
 {% endblock %}

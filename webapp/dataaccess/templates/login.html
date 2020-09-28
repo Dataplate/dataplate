@@ -1,20 +1,25 @@
 {% extends 'index.html' %}
+
+{% block header %}
+<style>
+body { background: #31353D; }
+</style>
+{% endblock %}
  
-{% block container %}
-  <div class="row mt-2">
-    <div class="card col-md-4 col-sm-12">
-      <div class="card-body">
-        <p class="small text-muted card-title">Login with your LDAP/AD credentials</p>
-        <form
-            method="POST"
-            action="{{ url_for('home.login') }}"
-            role="form">
-          {{ form.csrf_token }}
-          <div class="form-group">{{ form.username.label }}: {{ form.username(class="form-control form-control-sm") }}</div>
-          <div class="form-group">{{ form.password.label }}: {{ form.password(class="form-control form-control-sm") }}</div>
-          <button type="submit" class="btn btn-primary btn-sm">login</button>
-        </form>
-      </div>
+{% block body %}
+<div class="container-flex">
+  <div class="login-form card mx-auto mt-5" style="width:50rem;">
+    <div class="card-body">
+      <h2 class="card-title">Sign-in</h2>
+      <p class="text-muted">Login with your LDAP/AD credentials</p>
+      {% include 'messages.html' %}
+      <form method="POST" action="{{ url_for('home.login') }}" role="form">
+        {{ form.csrf_token }}
+        <div class="form-group">{{ form.username.label }}: {{ form.username(class="form-control") }}</div>
+        <div class="form-group">{{ form.password.label }}: {{ form.password(class="form-control") }}</div>
+        <button type="submit" class="btn btn-primary">login</button>
+      </form>
     </div>
   </div>
+</div>
 {% endblock %}

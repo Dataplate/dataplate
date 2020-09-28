@@ -87,12 +87,16 @@ class User(db.Model, UserMixin, SerializerMixin):
         """
         Checks whether this user has one of specified roles
         """
-        if app.config['ENV'] == 'local':
-            return True
         for role in roles:
             if role in [r.name for r in self.roles]:
                 return True
         return False
+
+    def main_role_name(self):
+        if len(self.roles) == 0:
+            return 'User'
+        role_name = self.roles[0].name
+        return role_name.replace('-', ' ').capitalize()
 
 
 class Dataset(db.Model, SerializerMixin):

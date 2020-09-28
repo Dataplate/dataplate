@@ -2,32 +2,40 @@
 {% block subtitle %}Service Accounts{% endblock %}
 
 {% block content %}
-  <div class="row mb-3">
-    <p class="mark text-muted">Manage service accounts</p>
-  </div>
+<h2>Service accounts</h2>
+<hr>
 
-  {% for user in users %}
-  <div class="row mb-3" data-id="{{ user.id }}">
-    <div class="card border-light col-md-8">
+<div class="row">
+  <div class="form-group col-md-12">
+    <p class="text-muted">Service accounts are principal identities managed by the Data Plate, and they should used for automatic processes.</p>
+    {% include 'messages.html' %}
+  </div>
+</div>
+
+{% for user in users %}
+<div class="row mb-3" data-id="{{ user.id }}">
+  <div class="form-group col-md-12">
+    <div class="card">
       <div class="card-body">
-        <div class="card-title">{{ user.username }}</div>
-        <div class="card-subtitle small text-dark">
-          {{ user.fullname }}
-          <div class="btn-group ml-2 text-info" role="group">
-            <a href="{{ url_for('admin.edit_service', id=user.id) }}" class="btn btn-sm px-1"
-              title="Edit service account" data-toggle="tooltip">
-              <i class="fa fa-pencil"></i></a>
-            <a href="{{ url_for('admin.delete_service', id=user.id) }}" class="btn btn-sm px-1"
-              title="Delete service account" data-toggle="tooltip">
-              <i class="fa fa-trash-o"></i></a>
-          </div>
+        <div class="btn-group float-right" role="group">
+          <a href="{{ url_for('admin.edit_service', id=user.id) }}" class="btn btn-sm px-1"
+            title="Edit service account" data-toggle="tooltip">
+            <i class="fa fa-edit"></i></a>
+          <a href="{{ url_for('admin.delete_service', id=user.id) }}" class="btn btn-sm px-1"
+            title="Delete service account" data-toggle="tooltip">
+            <i class="fa fa-trash"></i></a>
         </div>
+        <div class="card-title">{{ user.username }}</div>
+        <div class="card-subtitle small text-dark">{{ user.fullname }}</div>
       </div>
     </div>
   </div>
-  {% endfor %}
+</div>
+{% endfor %}
 
-  <div class="row mt-4">
-    <a href="{{ url_for('admin.edit_service') }}">Add service account</a><br/>
+<div class="row mt-4">
+  <div class="form-group col-md-12">
+    <a class="btn btn-info" href="{{ url_for('admin.edit_service') }}">Add service account</a>
   </div>
+</div>
 {% endblock %}

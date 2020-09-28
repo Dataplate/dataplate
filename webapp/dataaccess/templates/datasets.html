@@ -6,62 +6,67 @@
 {% endblock %}
 
 {% block content %}
-  <div class="row mb-3">
-    <p class="mark text-muted">Datasets accessible via API</p>
-  </div>
+<h2>Datasets</h2>
+<hr>
 
-  {% for ds in datasets %}
-  <div class="row mb-3" data-id="{{ ds.id }}">
-    <div class="card col-md-8 col-sm-12 {{ 'bg-success-light' if ds.accessible_by(current_user) else 'bg-danger-light' }}">
+<div class="row">
+  <div class="form-group col-md-12">
+    <p class="text-muted">All datasets</p>
+    {% include 'messages.html' %}
+  </div>
+</div>
+
+{% for ds in datasets %}
+<div class="row mb-3" data-id="{{ ds.id }}">
+  <div class="form-group col-md-12">
+    <div class="card {{ 'ds-inaccessible' if not ds.accessible_by(current_user) }}">
       <div class="card-body">
-        <div class="card-title">{{ ds.name }}
-          {% if not ds.anonymized %}<i class="text-muted fa fa-address-card-o" data-toggle="tooltip"
-            title="The dataset contains private user data"></i>{% endif %}</div>
-        <div class="card-subtitle small text-dark">
-          {{ ds.description }}
-          <div class="btn-group ml-2 text-info" role="group">
-            {% if ds.accessible_by(current_user) %}
-              <a href="#" class="btn btn-sm px-1 run-query" title="Look inside"
-                data-toggle="tooltip" data-table="{{ ds.name }}"><i class="fa fa-eye"></i></a>
-            {% endif %}
-            {% if current_user.has_roles('admin', 'harvester') %}
-              <a href="{{ url_for('admin.edit_dataset', id=ds.id) }}" class="btn btn-sm px-1" title="Edit dataset" data-toggle="tooltip">
-                <i class="fa fa-pencil"></i></a>
-              <a href="{{ url_for('admin.clone_dataset', id=ds.id) }}" class="btn btn-sm px-1" title="Clone dataset" data-toggle="tooltip">
-                <i class="fa fa-clone"></i></a>
-              <a href="{{ url_for('admin.delete_dataset', id=ds.id) }}" class="btn btn-sm px-1" title="Delete dataset" data-toggle="tooltip">
-                <i class="fa fa-trash-o"></i></a>
-            {% endif %}
-          </div>
+        <div class="btn-group float-right text-info" role="group">
+          {% if ds.accessible_by(current_user) %}
+            <a href="#" class="btn btn-default btn-sm px-1 run-query" title="Look inside"
+              data-toggle="tooltip" data-table="{{ ds.name }}"><i class="fa fa-eye"></i></a>
+          {% endif %}
+          {% if current_user.has_roles('admin', 'harvester') %}
+            <a href="{{ url_for('admin.edit_dataset', id=ds.id) }}" class="btn btn-default btn-sm px-1" title="Edit dataset" data-toggle="tooltip">
+              <i class="fa fa-edit"></i></a>
+            <a href="{{ url_for('admin.clone_dataset', id=ds.id) }}" class="btn btn-default btn-sm px-1" title="Clone dataset" data-toggle="tooltip">
+              <i class="fa fa-clone"></i></a>
+            <a href="{{ url_for('admin.delete_dataset', id=ds.id) }}" class="btn btn-default btn-sm px-1" title="Delete dataset" data-toggle="tooltip">
+              <i class="fa fa-trash"></i></a>
+          {% endif %}
         </div>
-        <p class="small text-muted mb-0">{{ ds.source_url }}</p>
+        <div class="card-title">{{ ds.name }}</div>
+        <div class="card-subtitle text-muted">{{ ds.description }}</div>
       </div>
     </div>
   </div>
-  {% endfor %}
+</div>
+{% endfor %}
 
-  {% if current_user.has_roles('admin', 'harvester') %}
-  <div class="row mt-4">
-    <a href="{{ url_for('admin.edit_dataset') }}">Add new dataset</a><br/>
+{% if current_user.has_roles('admin', 'harvester') %}
+<div class="row">
+  <div class="form-group col-md-12">
+    <a class="btn btn-info" href="{{ url_for('admin.edit_dataset') }}">Add new dataset</a>
   </div>
-  {% endif %}
+</div>
+{% endif %}
 
-  <div class="modal fade" id="preview-dialog" tabindex="-1" role="dialog" aria-labelledby="preview-label"
-    aria-hidden="true">
-    <div class="modal-dialog small" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <p class="modal-title" id="preview-label"></p>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <pre id="preview-json"></pre>
-        </div>
+<div class="modal fade" id="preview-dialog" tabindex="-1" role="dialog" aria-labelledby="preview-label"
+  aria-hidden="true">
+  <div class="modal-dialog small" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title" id="preview-label"></p>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre id="preview-json"></pre>
       </div>
     </div>
   </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
