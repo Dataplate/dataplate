@@ -50,8 +50,7 @@ def validate_json(form, field):
 
 
 class LoginForm(FlaskForm):
-    username = TextField('Username', [InputRequired()])
-    email = EmailField('E-Mail', [InputRequired(), Email()])
+    username = EmailField('E-Mail', [InputRequired(), Email()])
     password = PasswordField('Password', [InputRequired()])
 
 
@@ -82,10 +81,8 @@ class DatasetUrlValidator(Regexp):
     def __init__(self):
         regex = r'^jdbc:redshift://(?P<host>[^/:]+)(:?:[0-9]+)?(:?/.*)?|s3://(?P<s3_bucket>[A-Za-z0-9\-]+)(:?/.*)$|^[a-zA-Z0-9-_`]+\.[a-zA-Z0-9-_`]+$'
         message = 'Must be a valid Amazon S3 location, JDBC URL or GLUE database.table'
-        super(DatasetUrlValidator, self).__init__(regex, re.IGNORECASE,
-                                                  message)
-        self.validate_hostname = HostnameValidation(
-            require_tld=True, allow_ip=False)
+        super(DatasetUrlValidator, self).__init__(regex, re.IGNORECASE, message)
+        self.validate_hostname = HostnameValidation(require_tld=True, allow_ip=False)
 
     def __call__(self, form, field):
         message = self.message
@@ -97,18 +94,16 @@ class DatasetUrlValidator(Regexp):
 
 
 class DatasetForm(FlaskForm):
-    TYPES = [('parquet', 'Parquet Files'), ('csv', 'CSV Files'),
-             ('json', 'JSON Files'), ('redshift', 'Redshift Table'), ('glue', 'GLUE Table')]
+    TYPES = [('parquet', 'Parquet Files'), ('csv', 'CSV Files'), ('json', 'JSON Files'),
+             ('redshift', 'Redshift Table'), ('glue', 'AWS Glue Table')]
 
     name = TextField('Name', [ \
         InputRequired(),
         Regexp('^\w+$', message="Dataset name can only contain alphanumeric and underscore characters.")
     ])
     description = TextField('Description', [InputRequired()])
-    source_type = SelectField(
-        'Source type', default='parquet', choices=TYPES)
-    source_url = TextField(
-        'Source URL', [InputRequired(), DatasetUrlValidator()])
+    source_type = SelectField('Source type', default='parquet', choices=TYPES)
+    source_url = TextField('Source URL', [InputRequired(), DatasetUrlValidator()])
     anonymized = BooleanField('Anonymized')
 
 
@@ -134,9 +129,6 @@ class GlobalConfigForm(FlaskForm):
         'Driver memory (MB)',
         [InputRequired(), NumberRange(512, 20480)])
     spark_conf = TextAreaField('Spark configuration', [validate_json])
-    reports_location = TextField(
-        'Reports Location on S3',
-        [InputRequired(), S3PrefixValidator()])
 
 
 class ServiceForm(FlaskForm):

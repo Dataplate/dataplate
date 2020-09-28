@@ -15,8 +15,7 @@ admin = Blueprint('admin', __name__, url_prefix='/admin')
 @login_required
 @requires_roles('admin')
 def roles():
-    return render_template(
-        'roles.html', roles=Role.query.order_by(Role.name).all())
+    return render_template('roles.html', roles=Role.query.order_by(Role.name).all())
 
 
 @admin.route('/role', methods=['GET', 'POST'])
@@ -33,9 +32,8 @@ def edit_role(id=None):
             if not id:
                 db.session.add(role)
             db.session.commit()
-            flash(
-                'The role has been {}!'.format('updated' if id else 'created'),
-                'success')
+            flash('The role has been {}!'.format('updated' if id else 'created'),
+                  'success')
             log_action('role_update', str(role.to_dict()))
             return redirect(url_for('admin.roles'))
         except:
@@ -70,8 +68,8 @@ def delete_role(id):
 @login_required
 @requires_roles('admin', 'harvester')
 def datasets():
-    return render_template(
-        'datasets.html', datasets=Dataset.query.order_by(Dataset.name).all())
+    return render_template('datasets.html',
+                           datasets=Dataset.query.order_by(Dataset.name).all())
 
 
 @admin.route('/dataset', methods=['GET', 'POST'])
@@ -89,16 +87,15 @@ def edit_dataset(id=None, clone=None):
                 db.session.add(dataset)
             log_action('dataset_update', str(dataset.to_dict()))
             db.session.commit()
-            flash(
-                'The dataset has been {}!'.format(
-                    'updated' if id else 'created'), 'success')
+            flash('The dataset has been {}!'.format('updated' if id else 'created'),
+                  'success')
             return redirect(url_for('admin.datasets'))
         except:
             app.logger.exception('Error updating dataset')
             db.session.rollback()
             flash(
-                'Error {} dataset! Please check that the input is valid.'.
-                format('updating' if id else 'creating'), 'danger')
+                'Error {} dataset! Please check that the input is valid.'.format(
+                    'updating' if id else 'creating'), 'danger')
 
     flash_errors(form)
     return render_template('edit_dataset.html', id=id, clone=clone, form=form)
@@ -121,8 +118,7 @@ def delete_dataset(id):
         db.session.commit()
         log_action('dataset_delete', dataset.name)
         return redirect(url_for('admin.datasets'))
-    return render_template(
-        'delete_dataset.html', dataset=dataset, form=request.form)
+    return render_template('delete_dataset.html', dataset=dataset, form=request.form)
 
 
 @admin.route('/auditlog', methods=['GET'])
@@ -137,13 +133,11 @@ def audit_log():
             query = query.filter(
                 AuditEntry.created_on >= parse_date(form.from_date.data))
         if form.to_date.data:
-            query = query.filter(
-                AuditEntry.created_on <= parse_date(form.to_date.data))
+            query = query.filter(AuditEntry.created_on <= parse_date(form.to_date.data))
         if form.query.data:
             query = query.filter(AuditEntry._fts.match(form.query.data))
 
-    pagination = query.order_by(
-        AuditEntry.created_on.desc()).paginate(error_out=False)
+    pagination = query.order_by(AuditEntry.created_on.desc()).paginate(error_out=False)
 
     flash_errors(form)
     return render_template('audit_log.html', pagination=pagination, form=form)
@@ -172,10 +166,9 @@ def edit_config():
 @login_required
 @requires_roles('admin')
 def services():
-    return render_template(
-        'services.html',
-        users=User.query.filter(User.service == True).order_by(
-            User.username).all())
+    return render_template('services.html',
+                           users=User.query.filter(User.service == True).order_by(
+                               User.username).all())
 
 
 @admin.route('/service', methods=['GET', 'POST'])
@@ -196,9 +189,8 @@ def edit_service(id=None):
         if not id:
             db.session.add(user)
         db.session.commit()
-        flash(
-            'Service user has been {}!'.format('updated' if id else 'created'),
-            'success')
+        flash('Service user has been {}!'.format('updated' if id else 'created'),
+              'success')
         log_action('service_update', str(user.to_dict()))
         return redirect(url_for('admin.services'))
 
@@ -226,8 +218,8 @@ def delete_service(id):
 @login_required
 @requires_roles('admin', 'query-builder')
 def queries():
-    return render_template(
-        'queries.html', queries=Query.query.order_by(Query.name).all())
+    return render_template('queries.html',
+                           queries=Query.query.order_by(Query.name).all())
 
 
 @admin.route('/query', methods=['GET', 'POST'])

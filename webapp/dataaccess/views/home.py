@@ -5,9 +5,9 @@ from flask_login import current_user, login_user, logout_user, login_required
 from ..app import db, app
 from ..models import *
 from ..forms import LoginForm, AccessKeyForm
-from ..ldap import ldap_login
 from ..audit import log_action
 from ..livy import LivyClient
+from ..login import authenticate
 from ..filesystem import list_files, read_file
 from ..views.helpers import requires_roles, flash_errors
 
@@ -37,10 +37,9 @@ def login():
 
     if request.method == 'POST' and form.validate():
         username = form.username.data
-        email = form.email.data
         password = form.password.data
         try:
-            user = ldap_login(username, email, password)
+            user = authenticate(username, password)
         except Exception as e:
             flash(str(e), 'danger')
             return render_template('login.html', form=form)
@@ -114,43 +113,3 @@ def run_query(id):
         query=query,
         parameters=parameters,
         form=request.form)
-
-
-@home.route('/report_file')
-@login_required
-@requires_roles('admin', 'report-viewer')
-def report_file():
-    config = GlobalConfig.get()
-    f = config.reports_location + request.args.get('file')
-    log_action('view_report', f)
-    return Response(read_file(f), mimetype='text/html')
-
-
-@home.route('/report')
-@login_required
-@requires_roles('admin', 'report-viewer')
-def report():
-    config = GlobalConfig.get()
-    filters = {}
-    values = {}
-
-    path = config.reports_location
-    for name, value in request.args.items():
-        if value:
-            path += '/' + name + '=' + value
-            filters[name] = value
-
-    files = []
-    for p in list_files(path, recursively=False):
-        if p.endswith('.html'):
-            files.append(p[len(config.reports_location):])
-        for name, value in re.findall(r'([^/]+)=([^/]+)', p):
-            if not name in filters:
-                filters[name] = None
-            if not name in values:
-                values[name] = set([value])
-            else:
-                values[name].add(value)
-
-    return render_template(
-        'report.html', filters=filters, values=values, files=files)

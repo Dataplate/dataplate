@@ -20,10 +20,7 @@
         <div class="card-subtitle small text-dark">
           {{ ds.description }}
           <div class="btn-group ml-2 text-info" role="group">
-            <a href="{{ config['PANOPTICON_URL'] }}/dataset_schema?uri={{ ds.source_url|urlencode }}"
-              target="_blank" class="btn btn-sm px-1" title="Lookup schema" data-toggle="tooltip">
-              <i class="fa fa-question"></i></a>
-            {% if ds.accessible_by(current_user) and not ds.is_redshift_source()%}
+            {% if ds.accessible_by(current_user) %}
               <a href="#" class="btn btn-sm px-1 run-query" title="Look inside"
                 data-toggle="tooltip" data-table="{{ ds.name }}"><i class="fa fa-eye"></i></a>
             {% endif %}
