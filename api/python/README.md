@@ -1,7 +1,7 @@
-DataPlane - Python Data Access API
+DataPlate - Python Data Access API
 ===================================
 
 ## Usage
 
-For instructions, please refer to the DataPlane Portal.
+For instructions, please refer to the DataPlate Portal.
 
