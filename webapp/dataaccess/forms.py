@@ -67,7 +67,7 @@ class AccessKeyForm(FlaskForm):
 
 class S3PrefixValidator(Regexp):
     def __init__(self):
-        regex = r'^s3://(?P<s3_bucket>[A-Za-z0-9\-]+)(:?/.*)$'
+        regex = r'^s3:\/\/(?P<s3_bucket>[A-Za-z0-9\-]+)(:?\/.*)$'
         message = 'Must be a valid Amazon S3 location'
         super(S3PrefixValidator, self).__init__(regex, re.IGNORECASE, message)
 
@@ -79,7 +79,7 @@ class S3PrefixValidator(Regexp):
 
 class DatasetUrlValidator(Regexp):
     def __init__(self):
-        regex = r'^jdbc:redshift://(?P<host>[^/:]+)(:?:[0-9]+)?(:?/.*)?|s3://(?P<s3_bucket>[A-Za-z0-9\-]+)(:?/.*)$|^[a-zA-Z0-9-_`]+\.[a-zA-Z0-9-_`]+$'
+        regex = r'^jdbc:redshift:\/\/(?P<host>[^\/:]+)(:?:[0-9]+)?(:?\/.*)?|s3:\/\/(?P<s3_bucket>[A-Za-z0-9\-]+)(:?\/.*)$|^[a-zA-Z0-9-_`]+\.[a-zA-Z0-9-_`]+$'
         message = 'Must be a valid Amazon S3 location, JDBC URL or GLUE database.table'
         super(DatasetUrlValidator, self).__init__(regex, re.IGNORECASE, message)
         self.validate_hostname = HostnameValidation(require_tld=True, allow_ip=False)
