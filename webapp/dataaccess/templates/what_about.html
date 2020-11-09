@@ -1,0 +1,77 @@
+{% extends 'index.html' %}
+{% block subtitle %}What is DataPlate{% endblock %}
+
+{% block header %}
+<link href="{{ url_for('static', filename='css/code.css') }}?{{ config['VERSION'] }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<h2>What is DataPlate ?</h2>
+<hr>
+
+<div class="row mb-3">
+  <div class="form-group col-md-12">
+    <h3>
+    <p class="text-muted">Dataplate is a monitoring and secure layer that enable data-scientists to do data exploration easier,</p>
+    <p class="text-muted">while preserving safe data access to enable GDPR and avoid data breaches</p>
+    </h3>
+  </div>
+</div>
+
+<div class="row">
+  <div class="form-group col-md-12">
+    <h4>
+    <p><b>Benefits for data scientist</b></p>
+    </h4>
+  </div>
+</div>
+
+<div class="row mb-3">
+  <div class="form-group col-md-12">
+    <h5>
+    <p class="text-muted">We enable a hybrid approach for data exploration - using both local notebooks and the scale of a remote Cloud computing</p>
+    <ul>
+      <li>Local notebooks - enable data scientist/analyst to use all kinds of libraries/model during the research</li>
+      <li>Remote notebooks - enable data scientist/analyst to use Cloud resource to manipulate data in scale</li>
+      <li><b>Dataplate Hybrid notebooks</b> - enable data scientist/analyst to use manipulate/normalize data using the Cloud and get the minimum results locally to test various algorithms</li>
+    </ul>
+    </h5>
+  </div>
+</div>
+
+<div class="row">
+  <div class="form-group col-md-12">
+    <h4>
+    <p><b>Benefits for security operations engineers</b></p>
+    </h4>
+  </div>
+</div>
+
+<div class="row">
+  <div class="form-group col-md-12">
+    <h5>
+    <p class="text-muted">
+    Managing data access is complicated! it requires to define different roles and policies in multiple platforms of data and requires log monitoring
+    DataPlate data access is simple! one place to monitor and define it all and using the same LDAP/ActiveDirectory users and groups
+    </p>
+    </h5>
+  </div>
+</div>
+
+<div class="row">
+  <div class="form-group col-md-12">
+    <h4>
+    <p>Architecture</p>
+    </h4>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="form-group col-md-12">
+    <img class="img-responsive img-rounded" alt="DataPlate.io" src="{{ url_for('static', filename='img/DataplateArch_v1.png') }}">
+  </div>
+</div>
+
+
+{% endblock %}

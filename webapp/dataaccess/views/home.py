@@ -82,6 +82,10 @@ def datasets():
     return render_template(
         'datasets.html', datasets=Dataset.query.order_by(Dataset.name).all())
 
+@home.route('/whatabout')
+@login_required
+def what_about():
+    return render_template('what_about.html')
 
 @home.route('/apidoc')
 @login_required
