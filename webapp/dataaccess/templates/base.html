@@ -9,6 +9,10 @@
     <link href="{{ url_for('static', filename='css/fontawesome-5.14.0.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/main.css') }}?{{ config['VERSION'] }}" rel="stylesheet">
     {% block header %}{% endblock %}
+    <link rel="shortcut icon" href="{{ url_for('static', filename = 'img/favicon.ico') }}"
+     type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename = 'img/favicon.ico') }}"
+     type="image/x-icon">
   </head>
   <body>
     {% block body %}{% endblock %}
