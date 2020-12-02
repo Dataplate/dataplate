@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 
 from ..app import app, db
 from ..models import *
-from ..forms import RoleForm, DatasetForm, AuditLogForm, GlobalConfigForm, ServiceForm, QueryForm
+from ..forms import RoleForm, DatasetForm, AuditLogForm, GlobalConfigForm, ServiceForm, QueryForm, UserForm
 from .helpers import requires_roles, flash_errors
 from ..audit import log_action
 
@@ -255,3 +255,53 @@ def delete_query(id):
         log_action('query_delete', query.name)
         return redirect(url_for('admin.queries'))
     return render_template('delete_query.html', query=query, form=request.form)
+
+
+@admin.route('/users')
+@login_required
+@requires_roles('admin')
+def users():
+    return render_template('users.html', users=User.query.order_by(User.fullname).all())
+
+
+@admin.route('/user', methods=['GET', 'POST'])
+@admin.route('/user/<id>', methods=['GET', 'POST'])
+@login_required
+@requires_roles('admin')
+def edit_user(id=None):
+    user = User.query.get(int(id)) if id else User(editmode=True)
+    form = UserForm(request.form, obj=user)
+
+    if request.method == 'POST' and form.validate():
+        form.populate_obj(user)
+        try:
+            if not id:
+                db.session.add(user)
+            db.session.commit()
+            flash('The user has been {}!'.format('updated' if id else 'created'),
+                  'success')
+            log_action('user_update', str(user.to_dict()))
+            return redirect(url_for('admin.users'))
+        except:
+            app.logger.exception('Error updating user')
+            db.session.rollback()
+            flash(
+                'Error {} user! Please check that the input is valid.'.format(
+                    'updating' if id else 'creating'), 'danger')
+        return render_template('edit_user.html', id=user.id, form=form)
+
+    flash_errors(form)
+    return render_template('edit_user.html', id=id, form=form)
+
+
+@admin.route('/user/<id>/delete', methods=['GET', 'POST'])
+@login_required
+@requires_roles('admin')
+def delete_user(id):
+    user = User.query.get(int(id))
+    if request.method == 'POST':
+        db.session.delete(user)
+        db.session.commit()
+        log_action('user_delete', user.username)
+        return redirect(url_for('admin.users'))
+    return render_template('delete_user.html', user=user, form=request.form)

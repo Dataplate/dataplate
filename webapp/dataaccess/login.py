@@ -4,14 +4,16 @@ from .app import app, db
 from .models import User, Role
 
 authenticate = None
+auth_ldap = False
 
 
 def init_login_backend():
-    global authenticate
+    global authenticate, auth_ldap
     kind = app.config.get('LOGIN_BACKEND', 'ldap')
     if kind == 'ldap':
         ldap_manager = LDAP3LoginManager(app)
         authenticate = ldap_authenticate
+        auth_ldap = True
     elif kind == 'demo':
         authenticate = demo_authenticate
     else:

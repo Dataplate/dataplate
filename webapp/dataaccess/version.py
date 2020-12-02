@@ -1,1 +1,2 @@
 VERSION = 'dev'
+VERSION_NUMBER = '1.01.00'

@@ -17,7 +17,7 @@ home = Blueprint('home', __name__)
 @home.route('/version')
 def health():
     return Response(
-        'Version: {}'.format(app.config['VERSION']), mimetype='text/plain')
+        'Version:{}, VersionNumber:{}'.format(app.config['VERSION'], app.config['VERSION_NUMBER']), mimetype='text/plain')
 
 
 @home.route('/')

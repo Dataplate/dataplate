@@ -7,7 +7,7 @@ from flask_login import LoginManager
 from flask_ldap3_login import LDAP3LoginManager
 from logging.config import dictConfig
 
-from .version import VERSION
+from .version import VERSION, VERSION_NUMBER
 
 dictConfig({
     'version': 1,
@@ -38,6 +38,7 @@ app = Flask(__name__)
 # (without the prefix)
 app.config.update({k[3:]: v for k, v in os.environ.items() if k.startswith('DA_')})
 app.config['VERSION'] = VERSION
+app.config['VERSION_NUMBER'] = VERSION_NUMBER
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)

@@ -19,6 +19,12 @@ def user_names():
     return jsonify([u.username for u in User.query.all()])
 
 
+@api.route('/role_names')
+@login_required
+def role_names():
+    return jsonify([r.name for r in Role.query.all()])
+
+
 @api.route('/dataset_names')
 @login_required
 def dataset_names():

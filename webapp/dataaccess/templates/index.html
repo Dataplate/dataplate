@@ -49,6 +49,9 @@
           {% if current_user.has_roles('admin') %}
           <li class="header-menu"><span>Admin</span></li>
           <li>
+            <a href="{{ url_for('admin.users') }}"><i class="fa fa-lock"></i><span>Users Management</span></a>
+          </li>
+          <li>
             <a href="{{ url_for('admin.roles') }}"><i class="fa fa-lock"></i><span>Roles and permissions</span></a>
           </li>
           {% if current_user.has_roles('admin', 'harvester') %}

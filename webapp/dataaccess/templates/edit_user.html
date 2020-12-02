@@ -1,0 +1,29 @@
+{% extends 'index.html' %}
+{% block subtitle %}{{ 'Edit' if id else 'New' }} User{% endblock %}
+
+{% block content %}
+<h2>{% if id %}Edit <i>{{ form.fullname.data }}</i> user{% else %}Add new user{% endif %}</h2>
+<hr>
+
+<div class="row">
+  <div class="form-group col-md-12">
+    {% include 'messages.html' %}
+  </div>
+</div>
+
+<div class="row">
+  <div class="form-group col-md-12">
+    <form
+        method="POST"
+        action="{% if id %}{{ url_for('admin.edit_user', id=id) }}{% else %}{{ url_for('admin.edit_user') }}{% endif %}"
+        role="form">
+      {{ form.csrf_token }}
+      <div class="form-group">{{ form.fullname.label }}: {{ form.fullname(class='form-control') }}</div>
+      <div class="form-group">{{ form.username.label }}: {{ form.username(class='form-control') }}</div>
+      <div class="form-group">{{ form.role_names.label }}: {{
+        form.role_names(rows='5', data_source_url=url_for('api.role_names'), class='typeahead form-control') }}</div>
+      <button type="submit" class="btn btn-info">Save</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

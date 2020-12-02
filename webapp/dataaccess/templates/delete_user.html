@@ -1,0 +1,23 @@
+{% extends 'index.html' %}
+{% block subtitle %}Delete User{% endblock %}
+
+{% block content %}
+<h2>Delete <i>{{ user.fullname }}</i></h2>
+<hr>
+
+<div class="row">
+  <div class="form-group col-md-12">
+    {% include 'messages.html' %}
+  </div>
+</div>
+
+<div class="row mb-3">
+  <div class="form-group col-md-12">
+    <p>Are you sure you want to delete user '{{ user.fullname }}'?</p>
+    <form method="POST" action="{{ url_for('admin.delete_user', id=user.id) }}" role="form">
+      {{ form.csrf_token }}
+      <button type="submit" class="btn btn-info">Delete</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

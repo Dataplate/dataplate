@@ -50,6 +50,7 @@ class GlobalConfig(db.Model, SerializerMixin):
         return config
 
 
+
 class User(db.Model, UserMixin, SerializerMixin):
     __tablename__ = 'users'
 
@@ -71,17 +72,23 @@ class User(db.Model, UserMixin, SerializerMixin):
                                    uselist=False,
                                    backref=db.backref('users'))
 
-    def __init__(self, username=None, fullname=None, service=False):
+    role_names = association_proxy(
+        'roles',
+        'name',
+        creator=lambda n: Role.query.filter_by(name=n).one_or_none())
+
+    def __init__(self, username=None, fullname=None, service=False, editmode=False):
         self.username = username
         self.fullname = fullname
         self.service = service
-        self.generate_access_key()
+        self.generate_access_key(editmode)
 
-    def generate_access_key(self):
+    def generate_access_key(self, editmode=False):
         self.access_key = ''.join(
             [random.choice(string.ascii_letters + string.digits) for n in range(32)])
-        from .audit import log_action
-        log_action('generate_key')
+        if not editmode:
+            from .audit import log_action
+            log_action('generate_key')
 
     def has_roles(self, *roles):
         """
@@ -97,6 +104,13 @@ class User(db.Model, UserMixin, SerializerMixin):
             return 'User'
         role_name = self.roles[0].name
         return role_name.replace('-', ' ').capitalize()
+
+    def to_dict(self):
+        d = super(User, self).to_dict()
+        d['roles'] = self.role_names
+        if 'access_key' in d.keys():
+            d['access_key'] = '********'
+        return d
 
 
 class Dataset(db.Model, SerializerMixin):

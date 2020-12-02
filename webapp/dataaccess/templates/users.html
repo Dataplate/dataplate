@@ -1,0 +1,43 @@
+{% extends 'index.html' %}
+{% block subtitle %}Users{% endblock %}
+
+{% block content %}
+<h2>Users</h2>
+<hr>
+
+<div class="row">
+  <div class="form-group col-md-12">
+    <p class="text-muted">Manage users and users' roles</p>
+    {% include 'messages.html' %}
+  </div>
+</div>
+
+{% for user in users %}
+<div class="row mb-3" data-id="{{ user.id }}">
+  <div class="form-group col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="btn-group float-right" role="group">
+          <a href="{{ url_for('admin.edit_user', id=user.id) }}" class="btn btn-light btn-sm" title="Edit user" data-toggle="tooltip">
+            <i class="far fa-edit"></i>
+          </a>
+          {% if not user.fullname == current_user.fullname %}
+          <a href="{{ url_for('admin.delete_user', id=user.id) }}" class="btn btn-light btn-sm" title="Delete user" data-toggle="tooltip">
+            <i class="far fa-trash-alt"></i>
+          </a>
+          {% endif %}
+        </div>
+        <h5 class="card-title">{{ user.fullname }}</h5>
+        <div class="card-subtitle text-muted">{{ user.username }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+<div class="row mt-4">
+  <div class="form-group col-md-12">
+    <a class="btn btn-info" href="{{ url_for('admin.edit_user') }}">Add new user</a>
+  </div>
+</div>
+{% endblock %}
