@@ -1,7 +1,11 @@
 DataPlate - Python Data Access API
 ===================================
 
-## Usage
+## Installation
+pip install dataplate
 
-For instructions, please refer to the [DataPlate Github](https://github.com/Dataplate)
+## Usage
+Install DataPlate webApp and "API Documentation" for usage instructions
+
+For more instructions, please refer to the [DataPlate Github](https://github.com/Dataplate)
 

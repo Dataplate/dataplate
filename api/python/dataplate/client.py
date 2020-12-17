@@ -12,7 +12,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
                     level=logging.INFO)
 
 
-class DataAccess:
+class DataPlate:
     """
     Initializes Data Access API client.
 
