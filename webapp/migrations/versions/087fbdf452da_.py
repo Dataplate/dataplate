@@ -148,6 +148,9 @@ def upgrade():
           ON audit_entries FOR EACH ROW EXECUTE PROCEDURE audit_entries_fts_trigger();
     '''))
 
+    with op.batch_alter_table('global_config') as batch_op:
+        batch_op.add_column(sa.Column('output_path', sa.String(length=250), nullable=True))
+
 def downgrade():
     op.execute('DROP TRIGGER audit_entries_fts_trigger ON audit_entries')
     op.execute('DROP FUNCTION audit_entries_fts_trigger()')

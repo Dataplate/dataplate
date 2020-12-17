@@ -18,7 +18,7 @@ Open your browser at http://localhost:5000 and use demo@dataplate.io / demo comb
 
 ### Using venv
 
-This option is useful for debugging.
+**This option is useful for debugging.**
 
 First, you must have PostgreSQL up and running. This can be achieved easily using Docker:
 
@@ -26,8 +26,13 @@ First, you must have PostgreSQL up and running. This can be achieved easily usin
 docker run --rm -ti -e POSTGRES_USER=da -e POSTGRES_PASSWORD=da -e POSTGRES_DB=da -p 5432:5432 postgres:12.4
 ```
 
-Prepare the virtual environment:
+**Prepare the virtual environment:**
 
+Note:
+Before the pip install ,in case of MAC, make sure that you have postgresql (brew install postgresql) for pg_config executable
+and have openssl installed and run:
+_$ export LDFLAGS="-L/usr/local/opt/openssl/lib" and 
+$ export CPPFLAGS="-I/usr/local/opt/openssl/include"_
 ```bash
 python3 -mvenv venv
 source venv/bin/activate

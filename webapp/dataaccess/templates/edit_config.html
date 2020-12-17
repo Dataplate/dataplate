@@ -22,6 +22,7 @@
       <div class="form-group">{{ form.session_name.label }}: {{ form.session_name(class='form-control') }}</div>
       <div class="form-group">{{ form.driver_memory_mb.label }}: {{ form.driver_memory_mb(class='form-control') }}</div>
       <div class="form-group">{{ form.spark_conf.label }}: {{ form.spark_conf(class='form-control') }}</div>
+      <div class="form-group">{{ form.output_path.label }}: {{ form.output_path(class='form-control', placeholder="s3://MyBucket/MyOutputFolder") }}</div>
       <button type="submit" class="btn btn-info">Update</button>
     </form>
   </div>

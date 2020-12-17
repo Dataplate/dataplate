@@ -39,6 +39,7 @@ class GlobalConfig(db.Model, SerializerMixin):
     session_name = db.Column(db.String(100), default='DataAccess')
     spark_conf = db.Column(JSON, default='''{"spark.sql.shuffle.partitions": "25"}''')
     driver_memory_mb = db.Column(db.Integer(), default=4096)
+    output_path = db.Column(db.String(250), default='s3://MyBucket/MyOutputFolder')
 
     @staticmethod
     def get():

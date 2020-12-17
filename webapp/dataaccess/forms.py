@@ -135,6 +135,7 @@ class GlobalConfigForm(FlaskForm):
         'Driver memory (MB)',
         [InputRequired(), NumberRange(512, 20480)])
     spark_conf = TextAreaField('Spark configuration', [validate_json])
+    output_path = TextField('Output Path', [InputRequired(), S3PrefixValidator()])
 
 
 class ServiceForm(FlaskForm):

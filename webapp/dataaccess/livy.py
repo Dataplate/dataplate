@@ -37,6 +37,7 @@ class LivyClient:
         self.b_async = b_async
         self.config = GlobalConfig.get()
         self.livy_url = self.config.livy_url.rstrip('/')
+        self.output_path = self.config.output_path.rstrip('/')
 
     def validate_session(self):
         """
@@ -183,7 +184,7 @@ class LivyClient:
 
         query_hash = hashlib.md5(normalized_query.encode('utf-8')).hexdigest()
         output_path = '/'.join([
-            app.config['OUTPUT_PATH'].rstrip('/'), current_user.username,
+            self.output_path, current_user.username,
             query_hash
         ])
 
