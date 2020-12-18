@@ -11,7 +11,7 @@ with open("requirements.txt", "r", encoding="utf-8") as f:
 
 setup(
     name='dataplate',
-    version='0.1',
+    version='0.2',
     description='DataPlate API for jupyter - interact with Dataplate webserver',
     long_description=long_description,
     long_description_content_type="text/markdown",
