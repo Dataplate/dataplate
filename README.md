@@ -1,14 +1,14 @@
 ![TBackground-rectSmallNoslogen](https://user-images.githubusercontent.com/69418989/102619767-a1523400-4145-11eb-8855-2c292daf16b2.png)
 ========================
-**Data-scientist and analysts need to research on data, which requires production data access, however with great data comes great responsibility !** 
+**Data-scientists and analysts need to research on real data, which requires production data access, however with great data comes great responsibility !** 
 
-Dataplate is a monitoring and another security layer that enable data-scientists to do data exploration easier utilize hybrid approach (using AWS EMR spark scaling while research on your local machine),
+Dataplate is a monitoring and another security layer that enable data-scientists to do data exploration easier, by utilize an hybrid approach (using AWS EMR spark scaling while research on your local machine),
 
 This approach enable to preserving safe data research using [Differential Privacy](https://en.wikipedia.org/wiki/Differential_privacy) that enable to monitor data access, while provide the necessary research freedom.
 
 The platform comprises of a webPlatform to monitor & define data access roles and a pypi (pip) library to install locally.
 
-The Web Server is a bridge between your Jupyter/python code and your Livy component of AWS EMR-master/Livy-machine/SageMaker-machine utilizing Apache Livy protocols
+The Web Server is a bridge between your Jupyter/python code and your Livy component of AWS EMR-master/Livy-machine/SageMaker-machine utilizing Apache Livy protocols (see Architecture diagram below)
 
 ### Benefits for Data-Scientists and Analysts
 
