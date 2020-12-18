@@ -6,8 +6,6 @@ services:
       POSTGRES_USER: da
       POSTGRES_PASSWORD: da
       POSTGRES_DB: da
-    ports:
-      - 5432:5432
   webapp:
     build:
       context: .

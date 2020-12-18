@@ -1,17 +1,53 @@
 DataPlate - Data Access Portal
 =================================
 
-Web service and API that provides audited access to Data sets.
+A Web platform and API that provides monitoring & audited access to Data sets on S3/Parquet/Glue/CSVs and more,
+utilizing the power of AWS EMR spark.
 
+You can install this web-service locally or remotely (on EC2 machine or on EMR Master node or Sagemaker machine)
 
-## Running locally
+Before installation :
+
+* If you intend to install the platform on a remote machine: Make sure you have access to your machine via ssh (ask your devops to enable ssh tunneling or allow your VPN to access all needed machine ports)
+* Make sure your EMR has Livy enabled (we recommend EMR 5.3.1+)
+* Make sure you have "docker" and "docker-compose" installed on your target web-server machine (in case of the recommended docker installation):
+  
+  Install docker on AWS instance:
+    ```bash
+    sudo yum update -y
+    sudo amazon-linux-extras install docker
+    sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+    docker-compose version
+    sudo service docker start
+    sudo usermod -a -G docker ec2-user (NOTE: ec2-user can be “hadoop” for emr)
+    docker info
+    sudo reboot
+    sudo groupadd docker
+    sudo usermod -a -G docker ${USER}
+    sudo chkconfig docker on
+    Logout (exit)
+    Login
+  ```
+
+## Installation
+
+1. copy this webapp code to a local folder to the target machine
+2. cd ./webapp (make sure the docker-compose.yml is located there)
+3. Now choose docker or venv (we recommend docker)
 
 ### Using docker-compose
 
 This is the recommended option.
 
 ```bash
+Forground run (see the run logs):
+--------------
 docker-compose -f docker-compose.yml up --build
+
+Background run (you can access the run logs later via "docker-compose logs -f")
+--------------
+docker-compose -f docker-compose.yml up -d --build
 ```
 
 Open your browser at http://localhost:5000 and use demo@dataplate.io / demo combination for logging in.
