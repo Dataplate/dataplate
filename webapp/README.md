@@ -1,7 +1,7 @@
 DataPlate - Data Access Portal
 =================================
 
-A Web platform and API that provides monitoring & audited access to Data sets on S3/Parquet/Glue/CSVs and more,
+A Web platform and API that provides monitoring & audited access to Data sets on S3/Parquet/Glue/CSVs/Redshift and more,
 utilizing the power of AWS EMR spark.
 
 You can install this web-service locally or remotely (on EC2 machine or on EMR Master node or Sagemaker machine)
@@ -34,8 +34,12 @@ Before installation :
 
 1. copy this webapp code to a local folder to the target machine
 2. cd ./webapp (make sure the docker-compose.yml is located there)
-3. Now choose docker or venv (we recommend docker)
+3. Now choose **docker-compose** or **venv** option bellow (we recommend docker-compose)
+5. After the installation go to http://YOUR-IP:5000 (you can change the port in the docker-compose.yml)
+6. In the web platform Navigate to the System Configuration and add your Livy URL (usually on port 8998) and set Output Path to an S3 path
+<img src="https://user-images.githubusercontent.com/69418989/102617755-584cb080-4142-11eb-9744-0e7336b81ddf.png" width="50%" height="50%">
 
+   
 ### Using docker-compose
 
 This is the recommended option.

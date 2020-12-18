@@ -26,7 +26,7 @@
 <div class="row">
   <div class="form-group col-md-12">
     <p class="text-muted">
-    First, make sure to set `DA_KEY` and `DA_URI` environment variables to your private access key and to the DataPlate Portal URI respectively. For instance, you add the following line to your <code>~/.profile</code> file:
+    First, make sure to set `DA_KEY` and `DA_URI` environment variables to your private access key (Navigate to "private access key" in the portal to get it) and to the DataPlate Portal URI respectively. For instance, you add the following line to your <code>~/.profile</code> file:
     </p>
   </div>
 </div>
@@ -67,7 +67,7 @@ from dataplate.client import DataPlate
 
 dataplate = DataPlate()
 df = dataplate.query_to_df('''
-SELECT * FROM myTAble WHERE `date`='20200218' AND hour=12
+SELECT * FROM myTable WHERE `date`='20200218' AND hour=12
 ''')
 {% endhighlight %}
   </div>

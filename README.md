@@ -1,4 +1,4 @@
-DataPlate - Data Access
+![TBackground-rectSmallNoslogen](https://user-images.githubusercontent.com/69418989/102619767-a1523400-4145-11eb-8855-2c292daf16b2.png)
 ========================
 
 Dataplate is a monitoring and another security layer that enable data-scientists to do data exploration easier utilize hybrid approach (using AWS EMR spark scaling while research on your local machine),

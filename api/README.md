@@ -1,7 +1,7 @@
 DataPlate - API
 ================
 
-Various API that provides audited access to Data sets.
+Various APIs that provides audited access to Data sets and communicate with DataPlate WebService.
 
 ## Projects
 
