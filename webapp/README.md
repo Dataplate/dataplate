@@ -38,11 +38,14 @@ Before installation :
 5. After the installation go to http://YOUR-IP:5000 (you can change the port in the docker-compose.yml)
 6. In the web platform Navigate to the System Configuration and add your Livy URL (usually on port 8998) and set Output Path to an S3 path
 <img src="https://user-images.githubusercontent.com/69418989/102617755-584cb080-4142-11eb-9744-0e7336b81ddf.png" width="50%" height="50%">
-
+7. First time connect to the system using the user: demo@dataplate.io , password: demo , after first login you can add/remove/edit users manually or 
+connect your LDAP by specifying DA_LOGIN_BACKEND=ldap in the docker-compose.yml or when create&run you DB via venv 
    
 ### Using docker-compose
 
-This is the recommended option.
+**This is the recommended option !**
+ 
+(you can alter the parameters ,such as DA_LOGIN_BACKEND=ldap for ldap integration or ports in the docker-compose.yml)
 
 ```bash
 Forground run (see the run logs):
@@ -79,8 +82,9 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Create database schema:
+**Create database schema:**
 
+DA_LOGIN_BACKEND parameter options: demo/ldap, specify manual user management "demo" or using ldap to manage users and groups "ldap"
 ```bash
 DA_SECRET_KEY=BcmbPqfA6os9-5kdajQPUA \
 DA_SQLALCHEMY_DATABASE_URI=postgresql://da:da@localhost/da \
@@ -89,7 +93,9 @@ FLASK_APP=dataaccess.app \
 flask db upgrade
 ```
 
-Run the application:
+**Run the application:**
+
+DA_LOGIN_BACKEND parameter options: demo/ldap, specify manual user management "demo" or using ldap to manage users and groups "ldap"
 
 ```bash
 DA_SECRET_KEY=BcmbPqfA6os9-5kdajQPUA \

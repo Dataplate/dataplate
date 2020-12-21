@@ -26,9 +26,10 @@ DataPlate data access is simple! one place to monitor and define it all and usin
 
 **Security Benefits:**
 
-* This security layer prevent browsing capabilities ,like s3 browser to list\view\delete\move files
+* Full LDAP integration for users and groups (using the username/email to query the audit log of accessing data)
+* High security control granularity, that comply to the given permission role defined in the system
+* This security layer prevent direct browsing capabilities ,like s3 browser to list\view\delete\move files
 * Access only to the relevant and needed data in a table-like formation
-* High security control granularity, that comply to the given permission group
 * Deep investigation capabilities in case of a data-breach
 
 ## Installation
