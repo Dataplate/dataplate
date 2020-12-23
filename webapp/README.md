@@ -12,7 +12,7 @@ Before installation :
 * Make sure your EMR has Livy enabled (we recommend EMR 5.3.1+)
 * Make sure you have "docker" and "docker-compose" installed on your target web-server machine (in case of the recommended docker installation):
   
-  Install docker on AWS instance:
+  Install docker on AWS instance (connect via ssh to the machine):
     ```bash
     sudo yum update -y
     sudo amazon-linux-extras install docker
@@ -21,13 +21,14 @@ Before installation :
     docker-compose version
     sudo service docker start
     sudo usermod -a -G docker ec2-user (NOTE: ec2-user can be “hadoop” for emr)
-    docker info
+    sudo docker info
     sudo reboot
+    # Now wait a minute for the machine to reboot and connect again (ssh)
     sudo groupadd docker
     sudo usermod -a -G docker ${USER}
     sudo chkconfig docker on
-    Logout (exit)
-    Login
+    Logout from the machine ($ exit)
+    Login again
   ```
 
 ## Installation
@@ -48,13 +49,22 @@ connect your LDAP by specifying DA_LOGIN_BACKEND=ldap in the docker-compose.yml 
 (you can alter the parameters ,such as DA_LOGIN_BACKEND=ldap for ldap integration or ports in the docker-compose.yml)
 
 ```bash
+$ cd YOUR_WEBAPP_FOLDER_WITH_docker-compose.yml
+$ chmod +x entrypoint.sh
+$ sudo service docker start (make sure docker is running)
+$ which docker-compose (find where the command is located if you need to use "sudo", usually the output is /usr/local/bin/docker-compose)
+$ sudo systemctl restart docker
+
 Forground run (see the run logs):
 --------------
-docker-compose -f docker-compose.yml up --build
+$ sudo /usr/local/bin/docker-compose -f docker-compose.yml up --build
 
 Background run (you can access the run logs later via "docker-compose logs -f")
 --------------
-docker-compose -f docker-compose.yml up -d --build
+$ sudo TMPDIR=$(pwd) /usr/local/bin/docker-compose -f docker-compose.yml up -d --build
+
+Errors Notes: In case you get "INTERNAL ERROR: cannot create temporary directory!", then run (specify tmp folder for the docker image):
+TMPDIR=$(pwd) docker-compose -f docker-compose.yml up -d --build
 ```
 
 Open your browser at http://localhost:5000 and use demo@dataplate.io / demo combination for logging in.
