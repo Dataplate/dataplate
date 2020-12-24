@@ -8,6 +8,7 @@ Create Date: 2020-09-27 10:53:48.176028
 from alembic import op
 import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
+# from sqlalchemy_utils import PasswordType
 
 from dataaccess.models import *
 
@@ -70,6 +71,7 @@ def upgrade():
     sa.Column('updated_on', sa.DateTime(), nullable=True),
     sa.Column('username', sa.String(), nullable=True),
     sa.Column('fullname', sa.String(), nullable=True),
+    sa.Column('password', sa.String(length=100)),
     sa.Column('access_key', sa.String(length=32), nullable=True),
     sa.Column('service', sa.Boolean(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
@@ -150,6 +152,9 @@ def upgrade():
 
     with op.batch_alter_table('global_config') as batch_op:
         batch_op.add_column(sa.Column('output_path', sa.String(length=250), nullable=True))
+
+    # with op.batch_alter_table('users') as batch_op:
+    #     batch_op.add_column(sa.Column('password', sa.String(length=100)))
 
 def downgrade():
     op.execute('DROP TRIGGER audit_entries_fts_trigger ON audit_entries')

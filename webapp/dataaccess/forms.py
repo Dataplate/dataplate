@@ -64,6 +64,7 @@ class RoleForm(FlaskForm):
 class UserForm(FlaskForm):
     fullname = TextField('Full Name', [InputRequired()])
     username = TextField('Email', [InputRequired()])
+    password = PasswordField('Password', [InputRequired()])
     role_names = MultiTextAreaField('Roles')
     # dataset_names = MultiTextAreaField('Datasets')
 

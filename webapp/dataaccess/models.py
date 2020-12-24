@@ -62,6 +62,7 @@ class User(db.Model, UserMixin, SerializerMixin):
                            onupdate=datetime.utcnow)
     username = db.Column(db.String(), unique=True)
     fullname = db.Column(db.String())
+    password = db.Column(db.String(100), unique=False, nullable=False)
     access_key = db.Column(db.String(32), unique=True)
     service = db.Column(db.Boolean(), default=False)
     roles = db.relationship('Role',
@@ -78,9 +79,10 @@ class User(db.Model, UserMixin, SerializerMixin):
         'name',
         creator=lambda n: Role.query.filter_by(name=n).one_or_none())
 
-    def __init__(self, username=None, fullname=None, service=False, editmode=False):
+    def __init__(self, username=None, fullname=None, password=None, service=False, editmode=False):
         self.username = username
         self.fullname = fullname
+        self.password = password
         self.service = service
         self.generate_access_key(editmode)
 

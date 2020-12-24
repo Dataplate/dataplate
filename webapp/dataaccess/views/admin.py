@@ -1,6 +1,7 @@
 from dateutil.parser import parse as parse_date
 from flask import request, render_template, flash, Blueprint, redirect, url_for, jsonify
 from flask_login import login_required, current_user
+from werkzeug.security import generate_password_hash
 
 from ..app import app, db
 from ..models import *
@@ -275,6 +276,7 @@ def edit_user(id=None):
     if request.method == 'POST' and form.validate():
         form.populate_obj(user)
         try:
+            user.password = generate_password_hash(user.password, method='sha256')
             if not id:
                 db.session.add(user)
             db.session.commit()
