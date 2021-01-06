@@ -22,7 +22,6 @@ Before installation :
     sudo service docker start
     sudo usermod -a -G docker ec2-user (NOTE: ec2-user can be “hadoop” for emr)
     sudo docker info
-    sudo reboot
     # Now wait a minute for the machine to reboot and connect again (ssh)
     sudo groupadd docker
     sudo usermod -a -G docker ${USER}
@@ -33,8 +32,8 @@ Before installation :
 
 ## Installation
 
-1. copy this webapp code to a local folder to the target machine
-2. cd ./webapp (make sure the docker-compose.yml is located there)
+1. git clone https://github.com/Dataplate/dataplate.git (or copy the webapp code to a local folder on the target machine)
+2. cd ./dataplate/webapp (make sure the docker-compose.yml is located there)
 3. Now choose **docker-compose** or **venv** option bellow (we recommend docker-compose)
 5. After the installation go to http://YOUR-IP:5000 (you can change the port in the docker-compose.yml)
 6. In the web platform Navigate to the System Configuration and add your Livy URL (usually on port 8998) and set Output Path to an S3 path
