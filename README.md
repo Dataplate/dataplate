@@ -51,4 +51,4 @@ Before installation :
 [Data Access API](api/README.md)   
 
 ## Architecture
-![alt text](./webapp/dataaccess/static/img/DataplateArch_v1.png?raw=true)
+![alt text](./webapp/dataaccess/static/img/DataplateArch_v2.png?raw=true)

@@ -9,7 +9,8 @@ You can install this web-service locally or remotely (on EC2 machine or on EMR M
 Before installation :
 
 * If you intend to install the platform on a remote machine: Make sure you have access to your machine via ssh (ask your devops to enable ssh tunneling or allow your VPN to access all needed machine ports)
-* Make sure your EMR has Livy enabled (we recommend EMR 5.3.1+)
+* Make sure your AWS EMR (or Azure) has Livy enabled (we recommend EMR 5.3.1+)
+![alt text](./dataaccess/static/img/livy_EMR_comp.png?raw=true)
 * Make sure you have "docker" and "docker-compose" installed on your target web-server machine (in case of the recommended docker installation):
   
   Install docker on AWS instance (connect via ssh to the machine):
