@@ -1,26 +1,44 @@
 ![TBackground-rectSmallNoslogen](https://user-images.githubusercontent.com/69418989/102619767-a1523400-4145-11eb-8855-2c292daf16b2.png)
 ========================
-**Data-scientists and analysts need to research on real data, which requires production data access, however with great data comes great responsibility !** 
 
-Dataplate is a monitoring and another security layer that enable data-scientists to do data exploration easier, by utilize an hybrid approach (using AWS EMR spark scaling while research on your local machine),
+**Why you need dataplate ?**
 
-This approach enable to preserving safe data research using [Differential Privacy](https://en.wikipedia.org/wiki/Differential_privacy) that enable to monitor data access, while provide the necessary research freedom.
+Data-scientists/analysts love notebooks and love using it locally, to easily try various models&algorithms without messing the production.
 
-The platform comprises of a webPlatform to monitor & define data access roles and a pypi (pip) library to install locally.
+However, there are time that the data is too big and we need clusters to process data (we love spark).
 
-The Web Server is a bridge between your Jupyter/python code and your Livy component of AWS EMR-master/Livy-machine/SageMaker-machine utilizing Apache Livy protocols (see Architecture diagram below)
+So, we use notebooks on the cloud, although it might have connection & kernel & auto-complete issues.
+
+We then process the data and still download some data to our local machine for comfortable research.
+
+But wait! the data can contain private data and this process might cause a data breach :-o
+ 
+So, you can use your devops team to define policies,roles and users ,but they're always busy and you'd like more control over your data team.
+
+ 
+**What is it?**
+
+DataPlate will enable you to continue the same local-remote (hybrid) research while monitoring data access and easily define who can access what, via an easy to use web service ,that is a bridge between your local IDE/Notebooks and your remote cluster.
+
+**see the [Architecture](#Architecture) diagram**
+
+This approach enable safer data access using [Differential Privacy](https://en.wikipedia.org/wiki/Differential_privacy) that enable to monitor data access, while provide the necessary research freedom.
+
+The platform comprises of a web-service to monitor & define data access roles and a pypi (pip) library to install on your notebook/IDE.
+
+Our Web Service is a bridge between your Jupyter/python local/remote notebook and your remote Cluster (like: Amazon EMR, Azure Cluster)
 
 ### Benefits for Data-Scientists and Analysts
 
-We enable a hybrid approach for data exploration - using both local notebooks and the scale of a remote Cloud computing
+We enable a hybrid approach for data exploration 
 
-* Local notebooks - enable data scientist/analyst to use all kinds of libraries/model during the research (nothing like a local dev environment)
-* Remote notebooks - enable data scientist/analyst to use Cloud resource to manipulate data in scale
-* **Dataplate Hybrid notebooks** - enable data scientist/analyst to use manipulate/normalize data using the Cloud and get the minimum results locally to test various algorithms
+Use your favorite local/remote notebooks and the scale of a remote computing cluster (AWS/Azure).
+
+All from the same notebook/IDE ,while every data access is monitored and recorded for safe data access, which also enable easy code sharing with your team
 
 ### Benefits for Security-Operations Engineers
 
-Managing data access is complicated! it requires to define different roles and policies in multiple platforms of data (e.g AWS accounts) and requires log monitoring
+Managing Data access is complicated! it requires to define different roles and policies in multiple platforms of data (e.g AWS accounts) and requires log monitoring
 
 DataPlate data access is simple! one place to monitor and define it all and using the same LDAP/ActiveDirectory users and groups of your organization
 
@@ -50,5 +68,5 @@ Before installation :
 
 [Data Access API](api/README.md)   
 
-## Architecture
+# Architecture
 ![alt text](./webapp/dataaccess/static/img/DataplateArch_v2.png?raw=true)
