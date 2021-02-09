@@ -15,6 +15,7 @@ def log_action(kind, text=None):
         if audit_session is None:
             g.audit_session = audit_session = AuditSession(
                 user=current_user, remote_ip=request.remote_addr)
+        #TODO - handle sql-injections !!!
         audit_session.entries.append(
             AuditEntry(user=current_user.username, kind=kind, text=text))
 

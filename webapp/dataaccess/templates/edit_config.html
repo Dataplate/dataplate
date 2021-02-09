@@ -16,7 +16,7 @@
   <div class="form-group col-md-12">
     <form method="POST" action="{{ url_for('admin.edit_config') }}" role="form">
       {{ form.csrf_token }}
-      <div class="form-group">{{ form.livy_url.label }}: {{ form.livy_url(class='form-control') }}</div>
+      <div class="form-group">{{ form.livy_url.label }}: {{ form.livy_url(class='form-control', placeholder="http://127.0.0.1:8998") }}</div>
       <div class="form-group">{{ form.session_wait_timeout.label }}: {{ form.session_wait_timeout(class='form-control') }}</div>
       <div class="form-group">{{ form.statement_wait_timeout.label }}: {{ form.statement_wait_timeout(class='form-control') }}</div>
       <div class="form-group">{{ form.session_name.label }}: {{ form.session_name(class='form-control') }}</div>

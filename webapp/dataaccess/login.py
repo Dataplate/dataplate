@@ -22,12 +22,15 @@ def init_login_backend():
 
 
 def get_or_add_user(username, fullname, password):
-    user = User.query.filter_by(username=username).one_or_none()
-    if not user:
-        user = User(username, fullname, generate_password_hash(password, method='sha256'))
-        db.session.add(user)
-        db.session.commit()
-    return user
+    try:
+        user = User.query.filter_by(username=username).one_or_none()
+        if not user:
+            user = User(username, fullname, generate_password_hash(password, method='sha256'))
+            db.session.add(user)
+            db.session.commit()
+        return user
+    except Exception as ex:
+        raise Exception(f'Problem with adding/getting user')
 
 
 def ldap_authenticate(username, password):

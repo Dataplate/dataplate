@@ -15,6 +15,9 @@ services:
       DA_SECRET_KEY: BcmbPqfA6os9-5kdajQPUA
       DA_ENV: local
       DA_LOGIN_BACKEND: demo
+      AWS_PROFILE: default
     command: db_upgrade run
     ports:
       - 5000:5000
+    volumes:
+      - ~/.aws/:/root/.aws:ro
