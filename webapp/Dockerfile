@@ -35,6 +35,5 @@ ENV PATH=/opt/dataplate/venv/bin:$PATH \
     FLASK_APP=dataaccess.app
 
 WORKDIR /opt/dataplate
-
 ENTRYPOINT ["/opt/dataplate/entrypoint.sh"]
 CMD ["run"]

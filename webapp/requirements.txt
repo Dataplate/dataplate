@@ -12,3 +12,13 @@ psycopg2==2.8.6
 python-dateutil==2.8.0
 requests==2.21.0
 werkzeug==0.15.6
+dash-core-components==1.14.0
+dash-html-components==1.1.1
+dash-bootstrap-components
+dash-extensions
+dash-cytoscape==0.2.0
+dash-renderer==1.8.3
+dash-table==4.11.1
+dash==1.18.0; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.3.0")
+pandas==1.1.5; python_full_version >= "3.6.1"
+numpy==1.19.4; python_version >= "3.6" and python_full_version >= "3.6.1"

@@ -16,14 +16,14 @@
   <div class="form-group col-md-12">
     <form method="POST" action="{{ url_for('admin.edit_config') }}" role="form">
       {{ form.csrf_token }}
-      <div class="form-group">{{ form.livy_url.label }}: {{ form.livy_url(class='form-control', placeholder="http://127.0.0.1:8998") }}</div>
+      <div class="form-group">{{ form.livy_url.label }}: {{ form.livy_url(class='form-control', placeholder="http://127.0.0.1:8998") }}<button type="submit" name="submit_button" class="btn btn-secondary" value="test_livy">Test Livy</button></div>
       <div class="form-group">{{ form.session_wait_timeout.label }}: {{ form.session_wait_timeout(class='form-control') }}</div>
       <div class="form-group">{{ form.statement_wait_timeout.label }}: {{ form.statement_wait_timeout(class='form-control') }}</div>
       <div class="form-group">{{ form.session_name.label }}: {{ form.session_name(class='form-control') }}</div>
       <div class="form-group">{{ form.driver_memory_mb.label }}: {{ form.driver_memory_mb(class='form-control') }}</div>
       <div class="form-group">{{ form.spark_conf.label }}: {{ form.spark_conf(class='form-control') }}</div>
       <div class="form-group">{{ form.output_path.label }}: {{ form.output_path(class='form-control', placeholder="s3://MyBucket/MyOutputFolder") }}</div>
-      <button type="submit" class="btn btn-info">Update</button>
+      <button type="submit" name="submit_button" class="btn btn-info" value="actual_submit">Update</button>
     </form>
   </div>
 </div>

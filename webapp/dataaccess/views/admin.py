@@ -8,9 +8,9 @@ from ..models import *
 from ..forms import RoleForm, DatasetForm, AuditLogForm, GlobalConfigForm, ServiceForm, QueryForm, UserForm
 from .helpers import requires_roles, flash_errors
 from ..audit import log_action
+import requests, json
 
 admin = Blueprint('admin', __name__, url_prefix='/admin')
-
 
 @admin.route('/roles')
 @login_required
@@ -152,16 +152,39 @@ def edit_config():
     form = GlobalConfigForm(request.form, obj=config)
 
     if request.method == 'POST' and form.validate():
-        form.populate_obj(config)
-        if not config.id:
-            db.session.add(config)
-        db.session.commit()
-        log_action('config_update', str(config.to_dict()))
-        flash('Configuration updated', 'success')
+        if request.form['submit_button'] == 'test_livy':
+            # str_livy = 'livy url is: ' + str(form['livy_url'])
+            validation_str = validate_livy_url(str(request.form['livy_url']))
+            flash(validation_str)
+        elif request.form['submit_button'] == 'actual_submit':
+            form.populate_obj(config)
+            if not config.id:
+                db.session.add(config)
+            db.session.commit()
+            log_action('config_update', str(config.to_dict()))
+            flash('Configuration updated', 'success')
 
     flash_errors(form)
     return render_template('edit_config.html', form=form)
 
+
+def validate_livy_url(test_url):
+    if test_url:
+        try:
+            host = test_url.rstrip('/')
+            data = {'kind': 'spark'}
+            headers = {'Content-Type': 'application/json'}
+            r = requests.get(host + '/sessions', data=json.dumps(data), headers=headers, timeout=10)
+            # r = requests.get(host)
+            if r.status_code >=200 and r.status_code < 300:
+                return('Livy connect successfuly')
+            else:
+                return('Failure validating your LIVY URL, make sure {}/sessions returns value and a valid status code'.format(host))
+                # r.json()
+                # if not website_is_up:
+                #     raise ValidationError('Your Livy URL has error status: ' + status_code)
+        except Exception as ex:
+            return('Your Livy URL is not responding, make sure {}/sessions is accessible and not inside docker with VPN\nError: {}'.format(host,str(ex)))
 
 @admin.route('/services')
 @login_required
@@ -307,3 +330,10 @@ def delete_user(id):
         log_action('user_delete', user.username)
         return redirect(url_for('admin.users'))
     return render_template('delete_user.html', user=user, form=request.form)
+
+
+@admin.route('/dashboard', methods=['GET', 'POST'])
+@login_required
+@requires_roles('admin', 'auditor')
+def dashboard():
+    return render_template('dashlayout.html',dash_url='/admin/dashboard/',min_height=500)#app.index())

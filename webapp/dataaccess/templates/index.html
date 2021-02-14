@@ -66,8 +66,12 @@
             <a href="{{ url_for('admin.edit_config') }}"><i class="fa fa-cog"></i><span>System configuration</span></a>
           </li>
           {% if current_user.has_roles('auditor') %}
+          <li class="header-menu"><span>Auditing</span></li>
           <li>
             <a href="{{ url_for('admin.audit_log') }}"><i class="fa fa-book-reader"></i><span>Audit log</span></a>
+          </li>
+          <li>
+            <a href="{{ url_for('admin.dashboard') }}"><i class="fa fa-book-reader"></i><span>Audit dashboard</span></a>
           </li>
           {% endif %}
           {% endif %}
