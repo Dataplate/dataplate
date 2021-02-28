@@ -184,7 +184,7 @@ def validate_livy_url(test_url):
                 # if not website_is_up:
                 #     raise ValidationError('Your Livy URL has error status: ' + status_code)
         except Exception as ex:
-            return('Your Livy URL is not responding, make sure {}/sessions is accessible and not inside docker with VPN\nError: {}'.format(host,str(ex)))
+            return('Your Livy URL is not responding, make sure {}/sessions is accessible and not inside docker with VPN\n ,Error: {}'.format(host,str(ex)))
 
 @admin.route('/services')
 @login_required
