@@ -97,6 +97,8 @@ def edit_dataset(id=None, clone=None):
             flash(
                 'Error {} dataset! Please check that the input is valid.'.format(
                     'updating' if id else 'creating'), 'danger')
+    else:
+        form.anonymized.data = dataset.anonymized
 
     flash_errors(form)
     return render_template('edit_dataset.html', id=id, clone=clone, form=form)
