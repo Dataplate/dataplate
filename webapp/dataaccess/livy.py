@@ -36,8 +36,10 @@ class LivyClient:
         self.refresh = refresh
         self.b_async = b_async
         self.config = GlobalConfig.get()
-        self.livy_url = self.config.livy_url.rstrip('/')
-        self.output_path = self.config.output_path.rstrip('/')
+        if self.config.livy_url:
+            self.livy_url = self.config.livy_url.rstrip('/')
+        if self.config.output_path:
+            self.output_path = self.config.output_path.rstrip('/')
 
     def validate_session(self):
         """
