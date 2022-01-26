@@ -3,9 +3,9 @@
 
 **Why do you need DataPlate ?**
 
-Data-scientists/analysts love notebooks and love using it locally, to easily try various models&algorithms without messing the production.
+Data-scientists/analysts love notebooks and love using it locally, to easily try various models and algorithms without messing the production.
 
-However, there are time that the data is too big and we need clusters to process data (we love spark).
+However, there are times that the data is too big and we need clusters to process data (we love spark).
 
 So, we use notebooks on the cloud, although it might have connection & kernel & auto-complete issues.
 
