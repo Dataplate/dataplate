@@ -1,6 +1,9 @@
 ![TBackground-rectSmallNoslogen](https://user-images.githubusercontent.com/69418989/102619767-a1523400-4145-11eb-8855-2c292daf16b2.png)
 ========================
 
+**This is our open-source solution for Data Access only**
+**For our full Saas solution visit our website: https://dataplate.io**
+
 **Why do you need DataPlate ?**
 
 Data-scientists/analysts love notebooks and love using it locally, to easily try various models and algorithms without messing the production.
