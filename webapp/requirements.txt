@@ -11,7 +11,7 @@ jinja2-highlight==0.6.1
 psycopg2==2.8.6
 python-dateutil==2.8.0
 requests==2.21.0
-werkzeug==0.15.6
+werkzeug==2.2.3
 dash-core-components==1.14.0
 dash-html-components==1.1.1
 dash-bootstrap-components
